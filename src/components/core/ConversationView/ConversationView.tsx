@@ -1,13 +1,8 @@
-interface ConversationViewProps {
-  conversationId: string;
-}
-
-const ConversationView = ({ conversationId }: ConversationViewProps) => {
+const ConversationView = () => {
   return (
     <>
       <div>
         <h1>Conversation View</h1>
-        <p>{conversationId}</p>
       </div>
     </>
   );
