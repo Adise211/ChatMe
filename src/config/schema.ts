@@ -48,6 +48,10 @@ export const conversationSchema = z.object({
     .min(1, "Last message ID is required")
     .describe("The ID of the last message"),
   unreadCount: z.number().default(0).describe("The number of unread messages"),
+  lastMessageStatus: z
+    .enum(["pending", "sent", "delivered", "read", "failed"])
+    .default("pending")
+    .describe("The status of the last message"),
   isActive: z
     .boolean()
     .default(true)
