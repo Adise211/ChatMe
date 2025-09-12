@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MessageDirection, MessageStatus } from "./types";
 
 export const contactSchema = z.object({
   id: z.string().describe("The ID of the contact"),
@@ -49,8 +50,8 @@ export const conversationSchema = z.object({
     .describe("The ID of the last message"),
   unreadCount: z.number().default(0).describe("The number of unread messages"),
   lastMessageStatus: z
-    .enum(["pending", "sent", "delivered", "read", "failed"])
-    .default("pending")
+    .enum(MessageStatus)
+    .default(MessageStatus.PENDING)
     .describe("The status of the last message"),
   isActive: z
     .boolean()
@@ -87,17 +88,15 @@ export const messageSchema = z.object({
     .describe("The ID of the receiver"),
   mediaType: z.string().optional().describe("The type of the media"),
   mediaUrl: z.string().optional().describe("The URL of the media"),
-  direction: z
-    .enum(["inbound", "outbound"])
-    .describe("The direction of the message"),
+  direction: z.enum(MessageDirection).describe("The direction of the message"),
   currentStatus: z
-    .enum(["pending", "sent", "delivered", "read", "failed"])
-    .default("pending")
+    .enum(MessageStatus)
+    .default(MessageStatus.PENDING)
     .describe("The current status of the message"),
   statusHistory: z
     .array(
       z.object({
-        status: z.enum(["pending", "sent", "delivered", "read", "failed"]),
+        status: z.enum(MessageStatus),
         at: z.date().describe("The date the status was updated"),
         reason: z
           .string()
