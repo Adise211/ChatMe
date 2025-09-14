@@ -6,13 +6,15 @@ import { getContactById, getInitials } from "@/config/helpers";
 import { useStore } from "@/store";
 
 interface ConversationItemProps {
-  currentConversation: Conversation;
+  conversationItem: Conversation;
+  isSelected: boolean;
   onClick: (conversation: Conversation) => void;
   onContactInfo: (conversation: Conversation) => void;
   onDeleteConversation: (conversation: Conversation) => void;
 }
 const ConversationItem = ({
-  currentConversation,
+  conversationItem,
+  isSelected,
   onClick,
   onContactInfo,
   onDeleteConversation,
@@ -24,9 +26,9 @@ const ConversationItem = ({
 
   // Get the contact for the current conversation
   useEffect(() => {
-    const contact = getContactById(currentConversation.contactId, contacts);
+    const contact = getContactById(conversationItem.contactId, contacts);
     setCurrentContact(contact || null);
-  }, [currentConversation, contacts]);
+  }, [conversationItem, contacts]);
 
   const formatTime = (timestamp: Date) => {
     if (!timestamp) return "";
@@ -85,7 +87,7 @@ const ConversationItem = ({
     e.stopPropagation();
     setShowMenu(false);
     if (onContactInfo) {
-      onContactInfo(currentConversation);
+      onContactInfo(conversationItem);
     }
   };
 
@@ -93,14 +95,14 @@ const ConversationItem = ({
     e.stopPropagation();
     setShowMenu(false);
     if (onDeleteConversation) {
-      onDeleteConversation(currentConversation);
+      onDeleteConversation(conversationItem);
     }
   };
 
   const handleItemClick = () => {
     setShowMenu(false);
     if (onClick) {
-      onClick(currentConversation);
+      onClick(conversationItem);
     }
   };
 
@@ -108,15 +110,13 @@ const ConversationItem = ({
     <div
       ref={menuRef}
       className={`flex items-center p-4 cursor-pointer transition-all duration-200 hover:bg-gray-50 relative ${
-        currentConversation.isActive
-          ? "bg-blue-50 border-r-2 border-blue-500"
-          : ""
+        isSelected ? "bg-blue-50 border-r-2 border-blue-500" : ""
       }`}
       onClick={handleItemClick}
     >
       {/* Avatar */}
       <div className="flex-shrink-0 mr-3">
-        <div className="w-12 h-12 rounded-full bg-darkBlue flex items-center justify-center text-white font-semibold text-sm">
+        <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
           {currentContact?.avatarUrl ? (
             <img
               src={currentContact.avatarUrl}
@@ -134,14 +134,14 @@ const ConversationItem = ({
         <div className="flex items-center justify-between mb-1">
           <h5
             className={`text-sm font-medium truncate ${
-              currentConversation.unreadCount > 0 ? "font-semibold" : ""
+              conversationItem.unreadCount > 0 ? "font-semibold" : ""
             }`}
           >
             {currentContact?.name}
           </h5>
           <div className="flex items-center">
             <span className="text-xs text-gray-500 flex-shrink-0 mr-2">
-              {formatTime(currentConversation?.lastMessageAt || new Date())}
+              {formatTime(conversationItem?.lastMessageAt || new Date())}
             </span>
             {/* Menu Button */}
             <button
@@ -156,24 +156,24 @@ const ConversationItem = ({
         <div className="flex items-center justify-between">
           <p
             className={`text-sm truncate ${
-              currentConversation.unreadCount > 0
+              conversationItem.unreadCount > 0
                 ? "text-gray-900 font-medium"
                 : "text-gray-600"
             }`}
           >
-            {currentConversation.lastMessage || "No messages yet"}
+            {conversationItem.lastMessage || "No messages yet"}
           </p>
 
           {/* Message Status */}
           <div className="flex items-center ml-2">
-            {currentConversation.unreadCount > 0 ? (
+            {conversationItem.unreadCount > 0 ? (
               <div className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
-                {currentConversation.unreadCount > 99
+                {conversationItem.unreadCount > 99
                   ? "99+"
-                  : currentConversation.unreadCount}
+                  : conversationItem.unreadCount}
               </div>
             ) : (
-              currentConversation.lastMessageStatus ===
+              conversationItem.lastMessageStatus ===
                 MessageStatus.DELIVERED && (
                 <CheckCheck className="w-4 h-4 text-blue-500" />
               )

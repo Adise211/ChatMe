@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { MessageDirection, MessageStatus, MediaType } from "./enums";
+import { MessageDirection, MessageStatus } from "./enums";
 
-console.log(MessageDirection, MessageStatus, MediaType);
 export const contactSchema = z.object({
-  id: z.string().describe("The ID of the contact"),
+  id: z.string().optional().describe("The ID of the contact"),
   name: z
     .string()
     .min(1, "Name is required")
@@ -29,7 +28,7 @@ export const contactSchema = z.object({
 });
 
 export const conversationSchema = z.object({
-  id: z.string().describe("The ID of the conversation"),
+  id: z.string().optional().describe("The ID of the conversation"),
   contactId: z
     .string()
     .min(1, "Contact ID is required")
@@ -66,7 +65,7 @@ export const conversationSchema = z.object({
 });
 
 export const messageSchema = z.object({
-  id: z.string().describe("The ID of the message"),
+  id: z.string().optional().describe("The ID of the message"),
   contactId: z
     .string()
     .min(1, "Contact ID is required")
@@ -110,3 +109,9 @@ export const messageSchema = z.object({
   createdAt: z.date().describe("The date the message was created"),
   updatedAt: z.date().describe("The date the message was updated").optional(),
 });
+
+export const newContactSchema = contactSchema.omit({ id: true });
+
+export const newConversationSchema = conversationSchema.omit({ id: true });
+
+export const newMessageSchema = messageSchema.omit({ id: true });

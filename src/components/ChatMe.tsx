@@ -1,4 +1,5 @@
-import { FullChat } from "@/components/core";
+import { ConversationView, ConversationList } from "@/components/core";
+
 import type { Contact, Conversation, Message } from "../config/types";
 import { useEffect } from "react";
 import { useStore } from "@/store";
@@ -9,9 +10,25 @@ interface ChatMeProps {
   messages: Message[];
   onInit(): void;
   conversationId: string;
+  onCreateNewConversation: (
+    contact: Contact,
+    conversation: Conversation
+  ) => void;
+  onConversationSelect: (conversation: Conversation) => void;
+  onContactInfo: (conversation: Conversation) => void;
+  onDeleteConversation: (conversation: Conversation) => void;
 }
 
-const ChatMe = ({ contacts, conversations, messages, onInit }: ChatMeProps) => {
+const ChatMe = ({
+  contacts,
+  conversations,
+  messages,
+  onInit,
+  onCreateNewConversation,
+  onConversationSelect,
+  onContactInfo,
+  onDeleteConversation,
+}: ChatMeProps) => {
   const setContacts = useStore((state) => state.setContacts);
   const setConversations = useStore((state) => state.setConversations);
   const setMessages = useStore((state) => state.setMessages);
@@ -48,9 +65,42 @@ const ChatMe = ({ contacts, conversations, messages, onInit }: ChatMeProps) => {
     onInit();
   }, []);
 
+  const handleNewConversation = (
+    contact: Contact,
+    conversation: Conversation
+  ) => {
+    if (onCreateNewConversation) {
+      onCreateNewConversation(contact, conversation);
+    }
+  };
+
+  const handleConversationSelect = (conversation: Conversation) => {
+    if (onConversationSelect) {
+      onConversationSelect(conversation);
+    }
+  };
+
+  const handleContactInfo = (conversation: Conversation) => {
+    if (onContactInfo) {
+      onContactInfo(conversation);
+    }
+  };
+
+  const handleDeleteConversation = (conversation: Conversation) => {
+    if (onDeleteConversation) {
+      onDeleteConversation(conversation);
+    }
+  };
+
   return (
     <>
-      <FullChat />
+      <ConversationList
+        onConversationSelect={handleConversationSelect}
+        onNewConversation={handleNewConversation}
+        onContactInfo={handleContactInfo}
+        onDeleteConversation={handleDeleteConversation}
+      />
+      <ConversationView />
     </>
   );
 };

@@ -3,12 +3,12 @@ import { Search, Plus } from "lucide-react";
 
 interface ConversationListHeaderProps {
   onSearch: (value: string) => void;
-  onNewConversation: () => void;
+  onNewConversationDialog: () => void;
 }
 
 const ConversationListHeader = ({
   onSearch,
-  onNewConversation,
+  onNewConversationDialog,
 }: ConversationListHeaderProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -18,8 +18,11 @@ const ConversationListHeader = ({
     onSearch(value);
   };
 
-  const handleNewConversation = () => {
-    onNewConversation();
+  const handleNewConversationDialog = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.currentTarget.blur(); // Remove focus from the button
+    onNewConversationDialog();
   };
 
   return (
@@ -41,8 +44,8 @@ const ConversationListHeader = ({
 
         {/* New Conversation Button */}
         <button
-          onClick={handleNewConversation}
-          className="flex-shrink-0 w-8 h-8 bg-darkBlue hover:bg-gray-800 text-white rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md active:scale-95"
+          onClick={handleNewConversationDialog}
+          className="flex-shrink-0 w-8 h-8 bg-primary hover:bg-gray-800 text-white rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md active:scale-95"
           style={{ borderRadius: "8px" }}
           title="New Conversation"
         >

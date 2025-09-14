@@ -2,27 +2,29 @@ import { useState, useMemo } from "react";
 import ConversationListHeader from "./ConversationListHeader";
 import ConversationItem from "./ConversationItem";
 import { markConversationAsRead, getContactById } from "@/config/helpers";
-import { type Conversation } from "@/config/types";
+import { type Contact, type Conversation } from "@/config/types";
 import { useStore } from "@/store";
+import NewConversationDialog from "../NewConversationDialog";
 
 export interface ConversationListProps {
   onConversationSelect: (conversation: Conversation) => void;
-  onNewConversation: () => void;
-  refreshTrigger: number;
+  onNewConversation: (contact: Contact, conversation: Conversation) => void;
   onContactInfo: (conversation: Conversation) => void;
   onDeleteConversation: (conversation: Conversation) => void;
 }
 const ConversationList = ({
   onConversationSelect,
   onNewConversation,
-  refreshTrigger = 0,
   onContactInfo,
   onDeleteConversation,
 }: ConversationListProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [internalRefreshTrigger, setInternalRefreshTrigger] = useState(0);
   const conversations = useStore((state) => state.conversations);
   const contacts = useStore((state) => state.contacts);
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isNewConversationDialogOpen, setIsNewConversationDialogOpen] =
+    useState(false);
 
   // Filter conversations based on search term
   const filteredConversations = useMemo(() => {
@@ -49,7 +51,7 @@ const ConversationList = ({
           new Date(b.lastMessageAt || new Date()).getTime() -
           new Date(a.lastMessageAt || new Date()).getTime()
       );
-  }, [searchTerm, refreshTrigger, internalRefreshTrigger]);
+  }, [searchTerm, conversations, contacts]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -58,18 +60,28 @@ const ConversationList = ({
   const handleConversationClick = (conversation: Conversation) => {
     // Mark conversation as read when clicked
     markConversationAsRead(conversation);
+    // Set the selected conversation for local use
+    setSelectedConversation(conversation);
 
-    // Trigger a re-render to update the unread count
-    setInternalRefreshTrigger((prev) => prev + 1);
-
+    // Pass the selected conversation to the parent component
     if (onConversationSelect) {
       onConversationSelect(conversation);
     }
   };
 
-  const handleNewConversation = () => {
+  const handleNewConversationDialog = () => {
+    // open dialog
+    setIsNewConversationDialogOpen(true);
+  };
+
+  // Create new conversation and create contact
+  const handleCreateNewConversation = (
+    contact: Contact,
+    conversation: Conversation
+  ) => {
+    // Pass the new conversation and contact to the parent component
     if (onNewConversation) {
-      onNewConversation();
+      onNewConversation(contact, conversation);
     }
   };
 
@@ -90,7 +102,7 @@ const ConversationList = ({
       {/* Search Input with New Conversation Button */}
       <ConversationListHeader
         onSearch={handleSearch}
-        onNewConversation={handleNewConversation}
+        onNewConversationDialog={handleNewConversationDialog}
       />
 
       {/* Conversations List */}
@@ -106,7 +118,8 @@ const ConversationList = ({
           filteredConversations.map((conversation) => (
             <ConversationItem
               key={conversation.id}
-              currentConversation={conversation}
+              conversationItem={conversation}
+              isSelected={selectedConversation?.id === conversation.id}
               onClick={handleConversationClick}
               onContactInfo={handleContactInfo}
               onDeleteConversation={handleDeleteConversation}
@@ -125,6 +138,11 @@ const ConversationList = ({
           </div>
         )}
       </div>
+      <NewConversationDialog
+        isOpen={isNewConversationDialogOpen}
+        onClose={() => setIsNewConversationDialogOpen(false)}
+        onCreateNewConversation={handleCreateNewConversation}
+      />
     </div>
   );
 };
