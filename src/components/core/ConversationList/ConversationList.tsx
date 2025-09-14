@@ -5,11 +5,12 @@ import { markConversationAsRead, getContactById } from "@/config/helpers";
 import { type Contact, type Conversation } from "@/config/types";
 import { useStore } from "@/store";
 import NewConversationDialog from "../NewConversationDialog";
+import ConversationActionsModal from "./ConversationActionsModal";
 
 export interface ConversationListProps {
   onConversationSelect: (conversation: Conversation) => void;
   onNewConversation: (contact: Contact, conversation: Conversation) => void;
-  onContactInfo: (conversation: Conversation) => void;
+  onContactInfo: (contact: Contact) => void;
   onDeleteConversation: (conversation: Conversation) => void;
 }
 const ConversationList = ({
@@ -25,6 +26,17 @@ const ConversationList = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [isNewConversationDialogOpen, setIsNewConversationDialogOpen] =
     useState(false);
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    type: "contact" | "delete" | "none";
+    contact: Contact | null;
+    conversation: Conversation | null;
+  }>({
+    isOpen: false,
+    type: "none",
+    contact: null,
+    conversation: null,
+  });
 
   // Filter conversations based on search term
   const filteredConversations = useMemo(() => {
@@ -85,13 +97,27 @@ const ConversationList = ({
     }
   };
 
-  const handleContactInfo = (conversation: Conversation) => {
+  const handleContactInfo = (contact: Contact) => {
+    setModalState({
+      isOpen: true,
+      type: "contact",
+      contact: contact,
+      conversation: null,
+    });
+
     if (onContactInfo) {
-      onContactInfo(conversation);
+      onContactInfo(contact);
     }
   };
 
   const handleDeleteConversation = (conversation: Conversation) => {
+    setModalState({
+      isOpen: true,
+      type: "delete",
+      contact: null,
+      conversation: conversation,
+    });
+
     if (onDeleteConversation) {
       onDeleteConversation(conversation);
     }
@@ -138,10 +164,27 @@ const ConversationList = ({
           </div>
         )}
       </div>
+      {/* New Conversation Dialog */}
       <NewConversationDialog
         isOpen={isNewConversationDialogOpen}
         onClose={() => setIsNewConversationDialogOpen(false)}
         onCreateNewConversation={handleCreateNewConversation}
+      />
+      {/* Contact Info Dialog */}
+      <ConversationActionsModal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            type: "none",
+            contact: null,
+            conversation: null,
+          })
+        }
+        type={modalState.type as "contact" | "delete" | "none"}
+        currentContact={modalState.contact}
+        currentConversation={modalState.conversation}
+        onConfirmDelete={handleDeleteConversation}
       />
     </div>
   );

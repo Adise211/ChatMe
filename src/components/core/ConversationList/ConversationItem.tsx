@@ -9,7 +9,7 @@ interface ConversationItemProps {
   conversationItem: Conversation;
   isSelected: boolean;
   onClick: (conversation: Conversation) => void;
-  onContactInfo: (conversation: Conversation) => void;
+  onContactInfo: (contact: Contact) => void;
   onDeleteConversation: (conversation: Conversation) => void;
 }
 const ConversationItem = ({
@@ -87,7 +87,7 @@ const ConversationItem = ({
     e.stopPropagation();
     setShowMenu(false);
     if (onContactInfo) {
-      onContactInfo(conversationItem);
+      onContactInfo(currentContact as Contact);
     }
   };
 
