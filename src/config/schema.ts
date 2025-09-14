@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { MessageDirection, MessageStatus } from "./types";
+import { MessageDirection, MessageStatus, MediaType } from "./enums";
 
+console.log(MessageDirection, MessageStatus, MediaType);
 export const contactSchema = z.object({
   id: z.string().describe("The ID of the contact"),
   name: z

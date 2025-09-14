@@ -1,6 +1,7 @@
 import { CheckCheck, MoreVertical, User, Trash2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { type Conversation, type Contact, MessageStatus } from "@/config/types";
+import { type Conversation, type Contact } from "@/config/types";
+import { MessageStatus } from "@/config/enums";
 import { getContactById, getInitials } from "@/config/helpers";
 import { useStore } from "@/store";
 
