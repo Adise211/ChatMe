@@ -110,14 +110,16 @@ const ConversationList = ({
     }
   };
 
-  const handleDeleteConversation = (conversation: Conversation) => {
+  const handleConfirmDeleteDialog = (conversation: Conversation) => {
     setModalState({
       isOpen: true,
       type: "delete",
       contact: null,
       conversation: conversation,
     });
+  };
 
+  const handleDeleteConversation = (conversation: Conversation) => {
     if (onDeleteConversation) {
       onDeleteConversation(conversation);
     }
@@ -148,7 +150,7 @@ const ConversationList = ({
               isSelected={selectedConversation?.id === conversation.id}
               onClick={handleConversationClick}
               onContactInfo={handleContactInfo}
-              onDeleteConversation={handleDeleteConversation}
+              onConfirmDeleteDialog={handleConfirmDeleteDialog}
             />
           ))
         ) : (

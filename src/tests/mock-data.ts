@@ -1,4 +1,4 @@
-import { MessageDirection, MessageStatus } from "./enums";
+import { MessageDirection, MessageStatus } from "@/config/enums";
 
 // Mock Contacts Data
 export const mockContacts = [

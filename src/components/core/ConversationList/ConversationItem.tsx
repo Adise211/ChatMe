@@ -10,14 +10,14 @@ interface ConversationItemProps {
   isSelected: boolean;
   onClick: (conversation: Conversation) => void;
   onContactInfo: (contact: Contact) => void;
-  onDeleteConversation: (conversation: Conversation) => void;
+  onConfirmDeleteDialog: (conversation: Conversation) => void;
 }
 const ConversationItem = ({
   conversationItem,
   isSelected,
   onClick,
   onContactInfo,
-  onDeleteConversation,
+  onConfirmDeleteDialog,
 }: ConversationItemProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [currentContact, setCurrentContact] = useState<Contact | null>(null);
@@ -94,8 +94,8 @@ const ConversationItem = ({
   const handleDeleteConversation = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowMenu(false);
-    if (onDeleteConversation) {
-      onDeleteConversation(conversationItem);
+    if (onConfirmDeleteDialog) {
+      onConfirmDeleteDialog(conversationItem);
     }
   };
 

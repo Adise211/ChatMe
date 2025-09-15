@@ -15,7 +15,7 @@ interface ChatMeProps {
     conversation: Conversation
   ) => void;
   onConversationSelect: (conversation: Conversation) => void;
-  onContactInfo: (conversation: Conversation) => void;
+  onContactInfo: (contact: Contact) => void;
   onDeleteConversation: (conversation: Conversation) => void;
 }
 
@@ -80,9 +80,9 @@ const ChatMe = ({
     }
   };
 
-  const handleContactInfo = (conversation: Conversation) => {
+  const handleContactInfo = (contact: Contact) => {
     if (onContactInfo) {
-      onContactInfo(conversation);
+      onContactInfo(contact);
     }
   };
 

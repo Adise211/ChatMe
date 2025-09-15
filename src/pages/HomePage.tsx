@@ -3,7 +3,8 @@ import {
   mockContacts,
   mockConversations,
   mockMessages,
-} from "@/config/mock-data";
+} from "@/tests/mock-data";
+import { deleteConversation } from "@/tests/mock-functions";
 
 // TESTING ONLY!!!
 const HomePage = () => {
@@ -13,12 +14,16 @@ const HomePage = () => {
         contacts={mockContacts}
         conversations={mockConversations}
         messages={mockMessages}
-        onInit={() => {}}
+        onInit={() => {
+          console.log("onInit");
+        }}
         conversationId={""}
         onCreateNewConversation={() => {}}
         onConversationSelect={() => {}}
         onContactInfo={() => {}}
-        onDeleteConversation={() => {}}
+        onDeleteConversation={(conversation) => {
+          deleteConversation(conversation);
+        }}
       />
     </>
   );
