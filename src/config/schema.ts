@@ -3,13 +3,18 @@ import { MessageDirection, MessageStatus } from "./enums";
 
 export const contactSchema = z.object({
   id: z.string().optional().describe("The ID of the contact"),
-  name: z
+  firstName: z
     .string()
-    .min(1, "Name is required")
-    .describe("The name of the contact"),
+    .min(1, "First name is required")
+    .describe("The first name of the contact"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .describe("The last name of the contact"),
   email: z
     .string()
     .email("Invalid email address")
+    .optional()
     .describe("The email of the contact"),
   phoneNumber: z
     .string()

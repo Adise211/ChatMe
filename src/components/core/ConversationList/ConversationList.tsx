@@ -49,15 +49,18 @@ const ConversationList = ({
     }
 
     return conversations
-      .filter(
-        (conversation) =>
-          getContactById(conversation.contactId, contacts)
-            ?.name.toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
+      .filter((conversation) => {
+        const contact = getContactById(conversation.contactId, contacts);
+        const fullName = contact
+          ? `${contact.firstName} ${contact.lastName}`
+          : "";
+        return (
+          fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           conversation.lastMessage
             .toLowerCase()
             .includes(searchTerm.toLowerCase())
-      )
+        );
+      })
       .sort(
         (a, b) =>
           new Date(b.lastMessageAt || new Date()).getTime() -

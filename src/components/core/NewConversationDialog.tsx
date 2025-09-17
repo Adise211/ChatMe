@@ -30,7 +30,8 @@ const NewConversationDialog = ({
   onCreateNewConversation,
 }: NewConversationDialogProps) => {
   const DEFAULT_CONTACT_DATA = {
-    name: "",
+    firstName: "",
+    lastName: "",
     phoneNumber: "",
     email: "",
     notes: "",
@@ -88,11 +89,14 @@ const NewConversationDialog = ({
         setIsSubmitting(true);
         // Create conversation data in the new format
         const contactData = {
-          name: formData.name.trim(),
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
           phoneNumber: formData.phoneNumber.trim(),
           email: formData.email.trim(),
           notes: formData.notes.trim(),
-          avatarUrl: "",
+          avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            formData.firstName.trim() + " " + formData.lastName.trim()
+          )}`,
           isActive: true,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -135,13 +139,13 @@ const NewConversationDialog = ({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Contact Name */}
+          {/* First Name */}
           <div>
             <label
-              htmlFor="name"
+              htmlFor="firstName"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Contact Name *
+              First Name *
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -149,14 +153,40 @@ const NewConversationDialog = ({
               </div>
               <Input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleInputChange}
-                placeholder="Enter contact name"
+                placeholder="Enter first name"
                 className="pl-10"
                 required
-                error={errors.name}
+                error={errors.firstName}
+              />
+            </div>
+          </div>
+
+          {/* Last Name */}
+          <div>
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Last Name *
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <User className="h-5 w-5 text-gray-400" />
+              </div>
+              <Input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                placeholder="Enter last name"
+                className="pl-10"
+                required
+                error={errors.lastName}
               />
             </div>
           </div>

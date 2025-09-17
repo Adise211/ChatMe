@@ -4,7 +4,8 @@ import { MessageDirection, MessageStatus } from "@/config/enums";
 export const mockContacts = [
   {
     id: "contact-1",
-    name: "John Smith",
+    firstName: "John",
+    lastName: "Smith",
     email: "john.smith@email.com",
     phoneNumber: "+1234567890",
     avatarUrl:
@@ -16,7 +17,8 @@ export const mockContacts = [
   },
   {
     id: "contact-2",
-    name: "Sarah Johnson",
+    firstName: "Sarah",
+    lastName: "Johnson",
     email: "sarah.johnson@email.com",
     phoneNumber: "+1987654321",
     avatarUrl:
@@ -28,7 +30,8 @@ export const mockContacts = [
   },
   {
     id: "contact-3",
-    name: "Michael Brown",
+    firstName: "Michael",
+    lastName: "Brown",
     email: "michael.brown@email.com",
     phoneNumber: "+1555123456",
     avatarUrl:
@@ -40,7 +43,8 @@ export const mockContacts = [
   },
   {
     id: "contact-4",
-    name: "Emily Davis",
+    firstName: "Emily",
+    lastName: "Davis",
     email: "emily.davis@email.com",
     phoneNumber: "+1444333222",
     avatarUrl:
@@ -52,7 +56,8 @@ export const mockContacts = [
   },
   {
     id: "contact-5",
-    name: "David Wilson",
+    firstName: "David",
+    lastName: "Wilson",
     email: "david.wilson@email.com",
     phoneNumber: "+1777888999",
     avatarUrl:
@@ -64,7 +69,8 @@ export const mockContacts = [
   },
   {
     id: "contact-6",
-    name: "Lisa Anderson",
+    firstName: "Lisa",
+    lastName: "Anderson",
     email: "lisa.anderson@email.com",
     phoneNumber: "+1666555444",
     avatarUrl:

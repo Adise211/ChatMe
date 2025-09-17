@@ -56,7 +56,7 @@ const ConversationItem = ({
     }
   };
 
-  // const initials = getInitials(currentContact?.name || "");
+  // const initials = getInitials(currentContact ? `${currentContact.firstName} ${currentContact.lastName}` : "");
 
   // Handle clicking outside the menu to close it
   useEffect(() => {
@@ -120,11 +120,15 @@ const ConversationItem = ({
           {currentContact?.avatarUrl ? (
             <img
               src={currentContact.avatarUrl}
-              alt={currentContact.name}
+              alt={`${currentContact.firstName} ${currentContact.lastName}`}
               className="w-12 h-12 rounded-full object-cover"
             />
           ) : (
-            getInitials(currentContact?.name || "")
+            getInitials(
+              currentContact
+                ? `${currentContact.firstName} ${currentContact.lastName}`
+                : ""
+            )
           )}
         </div>
       </div>
@@ -137,7 +141,9 @@ const ConversationItem = ({
               conversationItem.unreadCount > 0 ? "font-semibold" : ""
             }`}
           >
-            {currentContact?.name}
+            {currentContact
+              ? `${currentContact.firstName} ${currentContact.lastName}`
+              : ""}
           </h5>
           <div className="flex items-center">
             <span className="text-xs text-gray-500 flex-shrink-0 mr-2">

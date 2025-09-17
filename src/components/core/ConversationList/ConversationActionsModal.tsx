@@ -44,7 +44,11 @@ const ConversationActionsModal = ({
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Name
           </label>
-          <p className="text-gray-900">{currentContact?.name}</p>
+          <p className="text-gray-900">
+            {currentContact
+              ? `${currentContact.firstName} ${currentContact.lastName}`
+              : ""}
+          </p>
         </div>
 
         <div>
@@ -105,8 +109,12 @@ const ConversationActionsModal = ({
           {type === "delete" && (
             <DialogDescription>
               Are you sure you want to delete the conversation with{" "}
-              <span className="font-medium">{currentContact?.name}</span>? This
-              action cannot be undone.
+              <span className="font-medium">
+                {currentContact
+                  ? `${currentContact.firstName} ${currentContact.lastName}`
+                  : ""}
+              </span>
+              ? This action cannot be undone.
             </DialogDescription>
           )}
         </DialogHeader>

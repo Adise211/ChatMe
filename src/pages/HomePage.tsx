@@ -4,7 +4,10 @@ import {
   mockConversations,
   mockMessages,
 } from "@/tests/mock-data";
-import { deleteConversation } from "@/tests/mock-functions";
+import {
+  deleteConversation,
+  createNewConversation,
+} from "@/tests/mock-functions";
 
 // TESTING ONLY!!!
 const HomePage = () => {
@@ -18,7 +21,9 @@ const HomePage = () => {
           console.log("onInit");
         }}
         conversationId={""}
-        onCreateNewConversation={() => {}}
+        onCreateNewConversation={(contact, conversation) => {
+          createNewConversation(contact, conversation);
+        }}
         onConversationSelect={() => {}}
         onContactInfo={() => {}}
         onDeleteConversation={(conversation) => {
