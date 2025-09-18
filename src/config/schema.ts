@@ -91,8 +91,8 @@ export const messageSchema = z.object({
     .string()
     .min(1, "Receiver ID is required")
     .describe("The ID of the receiver"),
-  mediaType: z.string().optional().describe("The type of the media"),
-  mediaUrl: z.string().optional().describe("The URL of the media"),
+  mediaType: z.string().nullable().optional().describe("The type of the media"),
+  mediaUrl: z.string().nullable().optional().describe("The URL of the media"),
   direction: z.enum(MessageDirection).describe("The direction of the message"),
   currentStatus: z
     .enum(MessageStatus)
@@ -119,4 +119,4 @@ export const newContactSchema = contactSchema.omit({ id: true });
 
 export const newConversationSchema = conversationSchema.omit({ id: true });
 
-export const newMessageSchema = messageSchema.omit({ id: true });
+export const newMessageSchema = messageSchema.omit({ id: true }).partial();

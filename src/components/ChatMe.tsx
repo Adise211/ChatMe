@@ -1,7 +1,12 @@
 import { ConversationView, ConversationList } from "@/components/core";
 
-import type { Contact, Conversation, Message } from "../config/types";
-import { useEffect } from "react";
+import type {
+  Contact,
+  Conversation,
+  Message,
+  NewMessage,
+} from "../config/types";
+import { useEffect, useState } from "react";
 import { useStore } from "@/store";
 
 interface ChatMeProps {
@@ -17,6 +22,7 @@ interface ChatMeProps {
   onConversationSelect: (conversation: Conversation) => void;
   onContactInfo: (contact: Contact) => void;
   onDeleteConversation: (conversation: Conversation) => void;
+  onMessageSent: (message: NewMessage) => void;
 }
 
 const ChatMe = ({
@@ -28,10 +34,13 @@ const ChatMe = ({
   onConversationSelect,
   onContactInfo,
   onDeleteConversation,
+  onMessageSent,
 }: ChatMeProps) => {
   const setContacts = useStore((state) => state.setContacts);
   const setConversations = useStore((state) => state.setConversations);
   const setMessages = useStore((state) => state.setMessages);
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
 
   useEffect(() => {
     // Set the contacts, conversations, and messages
@@ -75,8 +84,16 @@ const ChatMe = ({
   };
 
   const handleConversationSelect = (conversation: Conversation) => {
+    // Set the selected conversation for local use
+    setSelectedConversation(conversation);
     if (onConversationSelect) {
       onConversationSelect(conversation);
+    }
+  };
+
+  const handleMessageSent = ({ message }: { message: NewMessage }) => {
+    if (onMessageSent) {
+      onMessageSent(message);
     }
   };
 
@@ -93,15 +110,24 @@ const ChatMe = ({
   };
 
   return (
-    <>
-      <ConversationList
-        onConversationSelect={handleConversationSelect}
-        onNewConversation={handleNewConversation}
-        onContactInfo={handleContactInfo}
-        onDeleteConversation={handleDeleteConversation}
-      />
-      <ConversationView />
-    </>
+    <div className="h-screen">
+      <div className="grid grid-cols-12">
+        <div className="col-span-4">
+          <ConversationList
+            onConversationSelect={handleConversationSelect}
+            onNewConversation={handleNewConversation}
+            onContactInfo={handleContactInfo}
+            onDeleteConversation={handleDeleteConversation}
+          />
+        </div>
+        <div className="col-span-8 h-screen">
+          <ConversationView
+            selectedConversation={selectedConversation}
+            onMessageSent={handleMessageSent}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 

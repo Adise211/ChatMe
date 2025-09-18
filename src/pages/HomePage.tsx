@@ -29,6 +29,9 @@ const HomePage = () => {
         onDeleteConversation={(conversation) => {
           deleteConversation(conversation);
         }}
+        onMessageSent={(message) => {
+          console.log("onMessageSent", message);
+        }}
       />
     </>
   );

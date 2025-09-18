@@ -8,8 +8,8 @@ interface MessageBubbleProps {
   isReceived?: boolean;
   isDelivered?: boolean;
   timestamp?: Date | string;
-  mediaUrl?: string;
-  mediaType?: string;
+  mediaUrl?: string | null;
+  mediaType?: string | null;
 }
 
 const MessageBubble = ({
