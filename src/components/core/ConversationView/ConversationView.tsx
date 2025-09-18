@@ -41,14 +41,14 @@ const ConversationView = ({
       : [];
   });
 
-  // Update messages when conversation changes
+  // Update messages when conversation changes or when messages in store change
   useEffect(() => {
     if (selectedConversation?.id) {
       setFilteredMessages(getMessagesForConversation(selectedConversation.id));
     } else {
       setFilteredMessages([]);
     }
-  }, [selectedConversation]);
+  }, [selectedConversation, messages]);
 
   const scrollToBottom = () => {
     // scroll to the bottom of the messages container if there are messages
@@ -132,7 +132,7 @@ const ConversationView = ({
   };
 
   const messageGroups = groupMessagesByDate(
-    messages.filter((msg): msg is Message => "id" in msg) as Message[]
+    filteredMessages.filter((msg): msg is Message => "id" in msg) as Message[]
   );
   // Get sorted date keys (oldest first) - date order
   const sortedDateKeys = Object.keys(messageGroups).sort(
@@ -167,17 +167,7 @@ const ConversationView = ({
                 key={message.id || message.createdAt.toString()}
                 className="animate-fadeIn"
               >
-                <MessageBubble
-                  message={message.content}
-                  isSent={message.direction === "outbound"}
-                  isReceived={message.direction === "inbound"}
-                  isDelivered={
-                    message.currentStatus === MessageStatus.DELIVERED
-                  }
-                  timestamp={message.createdAt}
-                  mediaUrl={message.mediaUrl || null}
-                  mediaType={message.mediaType || null}
-                />
+                <MessageBubble message={message} />
               </div>
             ))}
           </div>

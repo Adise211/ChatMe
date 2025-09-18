@@ -1,26 +1,19 @@
-import { Check, CheckCheck } from "lucide-react";
+import { Check, CheckCheck, Clock, X } from "lucide-react";
 import ImageWithLoader from "./ImageWithLoader";
 import VideoWithLoader from "./VideoWithLoader";
+import type { Message } from "@/config/types";
+import { MessageStatus } from "@/config/enums";
 
 interface MessageBubbleProps {
-  message?: string;
-  isSent?: boolean;
-  isReceived?: boolean;
-  isDelivered?: boolean;
-  timestamp?: Date | string;
-  mediaUrl?: string | null;
-  mediaType?: string | null;
+  message: Message;
 }
 
-const MessageBubble = ({
-  message,
-  isSent,
-  isReceived,
-  isDelivered,
-  timestamp,
-  mediaUrl,
-  mediaType,
-}: MessageBubbleProps) => {
+const MessageBubble = ({ message }: MessageBubbleProps) => {
+  const isSent = message.direction === "outbound";
+  const isReceived = message.direction === "inbound";
+  const timestamp = message.createdAt;
+  const mediaUrl = message.mediaUrl;
+  const mediaType = message.mediaType;
   const formatTime = (timestamp: Date | string | undefined) => {
     if (!timestamp) return "";
     const date = new Date(timestamp);
@@ -34,10 +27,38 @@ const MessageBubble = ({
   const getStatusIcon = () => {
     if (!isSent) return null;
 
-    if (isDelivered) {
-      return <CheckCheck className="w-3 h-3 text-blue-400" />;
-    } else {
-      return <Check className="w-3 h-3 text-gray-400" />;
+    switch (message.currentStatus) {
+      case MessageStatus.PENDING:
+        return <Clock className="w-3 h-3 text-gray-400" />;
+      case MessageStatus.SENT:
+        return <Check className="w-3 h-3 text-gray-400" />;
+      case MessageStatus.DELIVERED:
+        return <CheckCheck className="w-3 h-3 text-blue-400" />;
+      case MessageStatus.READ:
+        return <CheckCheck className="w-3 h-3 text-green-400" />;
+      case MessageStatus.FAILED:
+        return <X className="w-3 h-3 text-red-400" />;
+      default:
+        return <Check className="w-3 h-3 text-gray-400" />;
+    }
+  };
+
+  const getStatusText = () => {
+    if (!isSent) return "Received";
+
+    switch (message.currentStatus) {
+      case MessageStatus.PENDING:
+        return "Pending";
+      case MessageStatus.SENT:
+        return "Sent";
+      case MessageStatus.DELIVERED:
+        return "Delivered";
+      case MessageStatus.READ:
+        return "Read";
+      case MessageStatus.FAILED:
+        return "Failed";
+      default:
+        return "Sent";
     }
   };
 
@@ -83,9 +104,9 @@ const MessageBubble = ({
                 </div>
               )}
               {/* Text content */}
-              {message && (
+              {message.content && (
                 <p className="text-sm leading-relaxed break-words mb-0">
-                  {message}
+                  {message.content}
                 </p>
               )}
             </div>
@@ -94,7 +115,7 @@ const MessageBubble = ({
                 <div className="flex items-center gap-1 min-w-[70px]">
                   {getStatusIcon()}
                   <span className="text-xs text-gray-400">
-                    {isDelivered ? "Delivered" : "Sent"}
+                    {getStatusText()}
                   </span>
                 </div>
                 <span className="text-xs text-gray-400">
@@ -146,9 +167,9 @@ const MessageBubble = ({
                 </div>
               )}
               {/* Text content */}
-              {message && (
+              {message.content && (
                 <p className="text-sm leading-relaxed break-words mb-0">
-                  {message}
+                  {message.content}
                 </p>
               )}
             </div>

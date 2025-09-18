@@ -1,4 +1,4 @@
-import { type Conversation } from "@/config/types";
+import { type Conversation, type Message } from "@/config/types";
 import { MessageStatus } from "@/config/enums";
 import { useStore } from "@/store";
 
@@ -60,6 +60,27 @@ export const getConversationFullDataById = (conversationId: string) => {
 export const getConversationById = (id: string) => {
   const { conversations } = initStore();
   return conversations.find((conversation) => conversation.id === id);
+};
+
+export const updateMessageStatus = (
+  message: Message,
+  status: MessageStatus,
+  reason?: string
+) => {
+  const previousStatus = message.currentStatus;
+  // update the message status and add the previous status to the status history
+  return {
+    ...message,
+    currentStatus: status,
+    statusHistory: [
+      ...message.statusHistory,
+      {
+        status: previousStatus,
+        at: new Date(),
+        reason: reason || "changed status to " + status,
+      },
+    ],
+  };
 };
 
 // Helper function to mark a conversation as read

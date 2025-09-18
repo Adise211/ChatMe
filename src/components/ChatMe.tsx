@@ -72,7 +72,7 @@ const ChatMe = ({
 
   useEffect(() => {
     onInit();
-  }, []);
+  }, [onInit]);
 
   const handleNewConversation = (
     contact: Contact,
