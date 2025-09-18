@@ -14,7 +14,6 @@ interface ChatMeProps {
   conversations: Conversation[];
   messages: Message[];
   onInit(): void;
-  conversationId: string;
   onCreateNewConversation: (
     contact: Contact,
     conversation: Conversation
@@ -39,6 +38,7 @@ const ChatMe = ({
   const setContacts = useStore((state) => state.setContacts);
   const setConversations = useStore((state) => state.setConversations);
   const setMessages = useStore((state) => state.setMessages);
+  const updateConversation = useStore((state) => state.updateConversation);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
@@ -86,6 +86,12 @@ const ChatMe = ({
   const handleConversationSelect = (conversation: Conversation) => {
     // Set the selected conversation for local use
     setSelectedConversation(conversation);
+
+    // Reset unread count to 0 when conversation is selected
+    if (conversation.id && conversation.unreadCount > 0) {
+      updateConversation(conversation.id, { unreadCount: 0 });
+    }
+
     if (onConversationSelect) {
       onConversationSelect(conversation);
     }

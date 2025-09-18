@@ -57,6 +57,10 @@ export const conversationSchema = z.object({
     .enum(MessageStatus)
     .default(MessageStatus.PENDING)
     .describe("The status of the last message"),
+  lastMessageDirection: z
+    .enum(MessageDirection)
+    .optional()
+    .describe("The direction of the last message"),
   isActive: z
     .boolean()
     .default(true)

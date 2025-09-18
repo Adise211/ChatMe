@@ -21,7 +21,6 @@ const HomePage = () => {
         onInit={() => {
           console.log("onInit");
         }}
-        conversationId={""}
         onCreateNewConversation={(contact, conversation) => {
           createNewConversation(contact, conversation);
         }}

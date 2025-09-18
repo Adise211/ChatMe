@@ -19,6 +19,10 @@ interface StoreState {
   addContact: (contact: Contact) => void;
   addConversation: (conversation: Conversation) => void;
   addMessage: (message: Message | NewMessage) => void;
+  updateConversation: (
+    conversationId: string,
+    updates: Partial<Conversation>
+  ) => void;
 }
 
 export const useStore = create<StoreState>((set, get) => ({
@@ -39,4 +43,15 @@ export const useStore = create<StoreState>((set, get) => ({
     set({ conversations: [...get().conversations, conversation] }),
   addMessage: (message: Message | NewMessage) =>
     set({ messages: [...get().messages, message] }),
+  updateConversation: (
+    conversationId: string,
+    updates: Partial<Conversation>
+  ) =>
+    set({
+      conversations: get().conversations.map((conversation) =>
+        conversation.id === conversationId
+          ? { ...conversation, ...updates }
+          : conversation
+      ),
+    }),
 }));

@@ -1,3 +1,5 @@
+import { updateMessageStatus } from "@/config/helpers";
+import { MessageDirection, MessageStatus } from "@/config/enums";
 import type {
   Contact,
   Conversation,
@@ -31,6 +33,9 @@ export const deleteConversation = (conversation: Conversation) => {
 };
 
 export const sendMessage = (message: NewMessage, conversationId: string) => {
+  const store = initStore();
+
+  console.log("aaaa", message);
   const newMessageData: Message = {
     ...message,
     id: uuidv4(),
@@ -38,6 +43,40 @@ export const sendMessage = (message: NewMessage, conversationId: string) => {
     senderId: message.senderId || "",
   };
   // Send the message to the store
-  initStore().addMessage(newMessageData);
-  console.log("bbbb", initStore().messages);
+  store.addMessage(newMessageData);
+
+  console.log("bbbb", newMessageData);
+  if (newMessageData.direction === MessageDirection.OUTBOUND) {
+    console.log("cccc", initStore().messages);
+    setTimeout(() => {
+      const updatedMessage = updateMessageStatus(
+        newMessageData,
+        MessageStatus.SENT
+      );
+
+      // Update the message in the store
+      store.setMessages(
+        store.messages
+          // @ts-expect-error - id is not in the type
+          .map((msg) => (msg.id === newMessageData.id ? updatedMessage : msg))
+          .filter((msg): msg is Message => "id" in msg)
+      );
+    }, 1000);
+  } else {
+    console.log("dddd", initStore().messages);
+
+    setTimeout(() => {
+      const updatedMessage = updateMessageStatus(
+        newMessageData,
+        MessageStatus.DELIVERED
+      );
+      // Update the message in the store
+      store.setMessages(
+        store.messages
+          // @ts-expect-error - id is not in the type
+          .map((msg) => (msg.id === newMessageData.id ? updatedMessage : msg))
+          .filter((msg): msg is Message => "id" in msg)
+      );
+    }, 1000);
+  }
 };

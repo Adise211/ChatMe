@@ -179,8 +179,8 @@ const ConversationItem = ({
                   : conversationItem.unreadCount}
               </div>
             ) : (
-              conversationItem.lastMessageStatus ===
-                MessageStatus.DELIVERED && (
+              conversationItem.lastMessageStatus === MessageStatus.DELIVERED &&
+              conversationItem.lastMessageDirection === "outbound" && (
                 <CheckCheck className="w-4 h-4 text-blue-500" />
               )
             )}
