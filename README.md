@@ -295,7 +295,15 @@ npm run test:coverage
 
 Try ChatMe in your browser with our interactive sandbox:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/chatme-demo)
+**🚀 [Live Demo](https://stackblitz.com/fork/github/your-username/chatme)** - Interactive demo with realistic data
+
+**⚡ [CodeSandbox](https://codesandbox.io/s/chatme-demo)** - Fork and experiment with the code
+
+> **Note**: To create a working StackBlitz demo:
+>
+> 1. Push this repository to GitHub
+> 2. Replace `your-username` in the StackBlitz URL with your GitHub username
+> 3. Or use the StackBlitz GitHub integration: `https://stackblitz.com/fork/github/your-username/chatme`
 
 ### Demo Features
 
