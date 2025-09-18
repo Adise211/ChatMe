@@ -299,7 +299,7 @@ Try ChatMe in your browser with our interactive sandbox:
 
 **⚡ [Local Development](http://localhost:5177)** - Full demo with all features (run `npm run dev`)
 
-**📦 [StackBlitz Setup](STACKBLITZ_SETUP.md)** - Step-by-step guide to create working StackBlitz demo
+**📦 [StackBlitz Setup](docs/STACKBLITZ_SETUP.md)** - Step-by-step guide to create working StackBlitz demo
 
 > **Quick Start**: Open `stackblitz-demo.html` in your browser for an immediate working demo!
 
@@ -424,6 +424,23 @@ const DemoApp = () => {
 export default DemoApp;
 ```
 
+## 📚 Examples & Documentation
+
+### Code Examples
+
+For comprehensive code examples and integration patterns, see:
+
+**📖 [EXAMPLES.md](docs/EXAMPLES.md)** - Complete code examples including:
+
+- Basic usage patterns
+- Real-time chat implementation
+- Media message handling
+- Custom styling and theming
+- Router integration
+- State management integration
+- Testing examples
+- Performance optimization
+
 ## 🔧 Development
 
 ### Prerequisites
@@ -462,10 +479,6 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 2. **Testing**: Add tests for new features
 3. **Documentation**: Update documentation for API changes
 4. **Type Safety**: Maintain TypeScript strict mode compliance
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🔄 Changelog
 
