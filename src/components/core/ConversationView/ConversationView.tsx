@@ -45,12 +45,7 @@ const ConversationView = ({
   useEffect(() => {
     if (selectedConversation?.id) {
       const filtered = getMessagesForConversation(selectedConversation.id);
-      console.log(
-        "ddd - Filtered messages for conversation:",
-        selectedConversation.id,
-        filtered
-      );
-      console.log("eee - All messages in store:", messages);
+
       setFilteredMessages(filtered);
     } else {
       setFilteredMessages([]);
@@ -76,14 +71,8 @@ const ConversationView = ({
 
   const handleSendMessage = (messageText: string, file: File | null) => {
     try {
-      console.log(
-        "handleSendMessage - selectedConversation:",
-        selectedConversation
-      );
       const contactId = selectedConversation?.contactId || "";
       const conversationId = selectedConversation?.id || "";
-      console.log("handleSendMessage - contactId:", contactId);
-      console.log("handleSendMessage - conversationId:", conversationId);
 
       // TODOD: It is the user's responsibility to create an ID for the message and the sender
       const newMessage: NewMessage = {
@@ -101,8 +90,6 @@ const ConversationView = ({
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-
-      console.log("handleSendMessage - newMessage:", newMessage);
 
       // Notify parent component to refresh conversation list
       if (onMessageSent) {

@@ -87,7 +87,6 @@ const NewConversationDialog = ({
       } else {
         setErrors({});
         setIsSubmitting(true);
-        console.log("formData:", formData);
 
         // Create conversation data in the new format
         const contactData = {

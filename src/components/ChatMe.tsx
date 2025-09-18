@@ -79,7 +79,12 @@ const ChatMe = ({
     conversation: Conversation
   ) => {
     if (onCreateNewConversation) {
-      onCreateNewConversation(contact, conversation);
+      try {
+        onCreateNewConversation(contact, conversation);
+      } catch (error) {
+        // Handle errors gracefully to prevent component crashes
+        console.error("Error in onCreateNewConversation:", error);
+      }
     }
   };
 
@@ -93,25 +98,45 @@ const ChatMe = ({
     }
 
     if (onConversationSelect) {
-      onConversationSelect(conversation);
+      try {
+        onConversationSelect(conversation);
+      } catch (error) {
+        // Handle errors gracefully to prevent component crashes
+        console.error("Error in onConversationSelect:", error);
+      }
     }
   };
 
   const handleMessageSent = (message: NewMessage, conversationId: string) => {
     if (onMessageSent) {
-      onMessageSent(message, conversationId);
+      try {
+        onMessageSent(message, conversationId);
+      } catch (error) {
+        // Handle errors gracefully to prevent component crashes
+        console.error("Error in onMessageSent:", error);
+      }
     }
   };
 
   const handleContactInfo = (contact: Contact) => {
     if (onContactInfo) {
-      onContactInfo(contact);
+      try {
+        onContactInfo(contact);
+      } catch (error) {
+        // Handle errors gracefully to prevent component crashes
+        console.error("Error in onContactInfo:", error);
+      }
     }
   };
 
   const handleDeleteConversation = (conversation: Conversation) => {
     if (onDeleteConversation) {
-      onDeleteConversation(conversation);
+      try {
+        onDeleteConversation(conversation);
+      } catch (error) {
+        // Handle errors gracefully to prevent component crashes
+        console.error("Error in onDeleteConversation:", error);
+      }
     }
   };
 
