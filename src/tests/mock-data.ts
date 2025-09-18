@@ -501,42 +501,6 @@ export const mockMessages = [
   },
 ];
 
-// Helper function to get messages by conversation ID
-export const getMessagesByConversationId = (conversationId: string) => {
-  return mockMessages.filter(
-    (message) => message.conversationId === conversationId
-  );
-};
-
-// Helper function to get conversation by contact ID
-export const getConversationByContactId = (contactId: string) => {
-  return mockConversations.find(
-    (conversation) => conversation.contactId === contactId
-  );
-};
-
-// Helper function to get contact by ID
-export const getContactById = (contactId: string) => {
-  return mockContacts.find((contact) => contact.id === contactId);
-};
-
-// Helper function to get all data for a conversation (contact + conversation + messages)
-export const getConversationData = (conversationId: string) => {
-  const conversation = mockConversations.find(
-    (conv) => conv.id === conversationId
-  );
-  if (!conversation) return null;
-
-  const contact = getContactById(conversation.contactId);
-  const messages = getMessagesByConversationId(conversationId);
-
-  return {
-    contact,
-    conversation,
-    messages,
-  };
-};
-
 // Export types for TypeScript
 export type MockContact = (typeof mockContacts)[0];
 export type MockConversation = (typeof mockConversations)[0];

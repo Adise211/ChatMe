@@ -7,6 +7,7 @@ import {
 import {
   deleteConversation,
   createNewConversation,
+  sendMessage,
 } from "@/tests/mock-functions";
 
 // TESTING ONLY!!!
@@ -29,8 +30,9 @@ const HomePage = () => {
         onDeleteConversation={(conversation) => {
           deleteConversation(conversation);
         }}
-        onMessageSent={(message) => {
-          console.log("onMessageSent", message);
+        onMessageSent={(message, conversationId) => {
+          console.log("onMessageSent", message, conversationId);
+          sendMessage(message, conversationId);
         }}
       />
     </>

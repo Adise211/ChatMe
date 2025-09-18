@@ -26,7 +26,7 @@ const ConversationItem = ({
 
   // Get the contact for the current conversation
   useEffect(() => {
-    const contact = getContactById(conversationItem.contactId, contacts);
+    const contact = getContactById(conversationItem.contactId);
     setCurrentContact(contact || null);
   }, [conversationItem, contacts]);
 

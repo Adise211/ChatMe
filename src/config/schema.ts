@@ -38,7 +38,6 @@ export const conversationSchema = z.object({
     .string()
     .min(1, "Contact ID is required")
     .describe("The ID of the contact"),
-
   lastMessage: z
     .string()
     .optional()
@@ -119,4 +118,7 @@ export const newContactSchema = contactSchema.omit({ id: true });
 
 export const newConversationSchema = conversationSchema.omit({ id: true });
 
-export const newMessageSchema = messageSchema.omit({ id: true }).partial();
+export const newMessageSchema = messageSchema.omit({ id: true }).partial({
+  // Will be filed by the user/server
+  senderId: true,
+});

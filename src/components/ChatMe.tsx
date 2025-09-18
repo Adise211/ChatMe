@@ -22,7 +22,7 @@ interface ChatMeProps {
   onConversationSelect: (conversation: Conversation) => void;
   onContactInfo: (contact: Contact) => void;
   onDeleteConversation: (conversation: Conversation) => void;
-  onMessageSent: (message: NewMessage) => void;
+  onMessageSent: (message: NewMessage, conversationId: string) => void;
 }
 
 const ChatMe = ({
@@ -91,9 +91,9 @@ const ChatMe = ({
     }
   };
 
-  const handleMessageSent = ({ message }: { message: NewMessage }) => {
+  const handleMessageSent = (message: NewMessage, conversationId: string) => {
     if (onMessageSent) {
-      onMessageSent(message);
+      onMessageSent(message, conversationId);
     }
   };
 

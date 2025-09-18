@@ -50,7 +50,7 @@ const ConversationList = ({
 
     return conversations
       .filter((conversation) => {
-        const contact = getContactById(conversation.contactId, contacts);
+        const contact = getContactById(conversation.contactId);
         const fullName = contact
           ? `${contact.firstName} ${contact.lastName}`
           : "";

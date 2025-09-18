@@ -1,11 +1,16 @@
-import type { Contact, Conversation, Message } from "@/config/types";
+import type {
+  Contact,
+  Conversation,
+  Message,
+  NewMessage,
+} from "@/config/types";
 import type { FieldType } from "@/config/enums";
 import { create } from "zustand";
 
 interface StoreState {
   contacts: Contact[];
   conversations: Conversation[];
-  messages: Message[];
+  messages: Message[] | NewMessage[];
   setContacts: (contacts: Contact[]) => void;
   setConversations: (conversations: Conversation[]) => void;
   setMessages: (messages: Message[]) => void;
@@ -13,7 +18,7 @@ interface StoreState {
   reset: (target: FieldType) => void;
   addContact: (contact: Contact) => void;
   addConversation: (conversation: Conversation) => void;
-  addMessage: (message: Message) => void;
+  addMessage: (message: Message | NewMessage) => void;
 }
 
 export const useStore = create<StoreState>((set, get) => ({
@@ -32,6 +37,6 @@ export const useStore = create<StoreState>((set, get) => ({
     set({ contacts: [...get().contacts, contact] }),
   addConversation: (conversation: Conversation) =>
     set({ conversations: [...get().conversations, conversation] }),
-  addMessage: (message: Message) =>
+  addMessage: (message: Message | NewMessage) =>
     set({ messages: [...get().messages, message] }),
 }));

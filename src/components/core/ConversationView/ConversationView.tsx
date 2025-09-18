@@ -10,7 +10,7 @@ import { MessageDirection, MessageStatus } from "@/config/enums";
 
 interface ConversationViewProps {
   selectedConversation: Conversation | null;
-  onMessageSent: ({ message }: { message: NewMessage }) => void;
+  onMessageSent: (message: NewMessage, conversationId: string) => void;
 }
 
 const ConversationView = ({
@@ -68,25 +68,31 @@ const ConversationView = ({
   }, [filteredMessages]);
 
   const handleSendMessage = (messageText: string, file: File | null) => {
-    const newMessage: NewMessage = {
-      contactId: "",
-      conversationId: "",
-      content: messageText,
-      senderId: "",
-      receiverId: "",
-      direction: MessageDirection.OUTBOUND,
-      currentStatus: MessageStatus.PENDING,
-      statusHistory: [],
-      mediaUrl: file ? URL.createObjectURL(file) : null,
-      mediaType: file ? getMediaType(file.type) : null,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    try {
+      const contactId = selectedConversation?.contactId || "";
+      // TODOD: It is the user's responsibility to create an ID for the message and the sender
+      const newMessage: NewMessage = {
+        contactId: contactId,
+        conversationId: selectedConversation?.id || "",
+        content: messageText,
+        senderId: "", // user id
+        receiverId: contactId,
+        direction: MessageDirection.OUTBOUND,
+        currentStatus: MessageStatus.PENDING,
+        statusHistory: [],
+        mediaUrl: file ? URL.createObjectURL(file) : null,
+        mediaType: file ? getMediaType(file.type) : null,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
 
-    // Notify parent component to refresh conversation list
-    if (onMessageSent) {
-      onMessageSent({ message: newMessage });
+      // Notify parent component to refresh conversation list
+      if (onMessageSent) {
+        onMessageSent(newMessage, selectedConversation?.id || "");
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -125,7 +131,9 @@ const ConversationView = ({
     return groups;
   };
 
-  const messageGroups = groupMessagesByDate(messages);
+  const messageGroups = groupMessagesByDate(
+    messages.filter((msg): msg is Message => "id" in msg) as Message[]
+  );
   // Get sorted date keys (oldest first) - date order
   const sortedDateKeys = Object.keys(messageGroups).sort(
     (a, b) => new Date(a).getTime() - new Date(b).getTime()
@@ -155,7 +163,10 @@ const ConversationView = ({
           <div key={dateKey}>
             <DateHeader date={new Date(dateKey).toDateString()} />
             {messageGroups[dateKey].map((message) => (
-              <div key={message.id} className="animate-fadeIn">
+              <div
+                key={message.id || message.createdAt.toString()}
+                className="animate-fadeIn"
+              >
                 <MessageBubble
                   message={message.content}
                   isSent={message.direction === "outbound"}

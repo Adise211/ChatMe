@@ -1,10 +1,18 @@
-import type { Contact, Conversation } from "@/config/types";
+import type {
+  Contact,
+  Conversation,
+  Message,
+  NewMessage,
+} from "@/config/types";
 import { useStore } from "@/store";
+import { v4 as uuidv4 } from "uuid";
 
+// # Local Use Only! - DO NOT USE IN PRODUCTION
 const initStore = () => {
   return useStore.getState();
 };
 
+// # Exported mock functions (database operations) For Testing Use Only! - DO NOT USE IN PRODUCTION
 export const createNewConversation = (
   contact: Contact,
   conversation: Conversation
@@ -20,4 +28,16 @@ export const deleteConversation = (conversation: Conversation) => {
   initStore().setConversations(
     initStore().conversations.filter((c) => c.id !== conversation.id)
   );
+};
+
+export const sendMessage = (message: NewMessage, conversationId: string) => {
+  const newMessageData: Message = {
+    ...message,
+    id: uuidv4(),
+    conversationId: conversationId,
+    senderId: message.senderId || "",
+  };
+  // Send the message to the store
+  initStore().addMessage(newMessageData);
+  console.log("bbbb", initStore().messages);
 };
