@@ -366,7 +366,7 @@ const demoMessages: Message[] = [
 ];
 
 const DemoPage = () => {
-  const [contacts, setContacts] = useState<Contact[]>(demoContacts);
+  const [contacts] = useState<Contact[]>(demoContacts);
   const [conversations, setConversations] =
     useState<Conversation[]>(demoConversations);
   const [messages, setMessages] = useState<Message[]>(demoMessages);
