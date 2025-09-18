@@ -141,8 +141,8 @@ const ChatMe = ({
   };
 
   return (
-    <div className="h-screen">
-      <div className="grid grid-cols-12">
+    <div className="h-full">
+      <div className="grid grid-cols-12 h-full">
         <div className="col-span-4">
           <ConversationList
             onConversationSelect={handleConversationSelect}
@@ -151,7 +151,7 @@ const ChatMe = ({
             onDeleteConversation={handleDeleteConversation}
           />
         </div>
-        <div className="col-span-8 h-screen">
+        <div className="col-span-8 h-full">
           <ConversationView
             selectedConversation={selectedConversation}
             onMessageSent={handleMessageSent}
