@@ -44,7 +44,14 @@ const ConversationView = ({
   // Update messages when conversation changes or when messages in store change
   useEffect(() => {
     if (selectedConversation?.id) {
-      setFilteredMessages(getMessagesForConversation(selectedConversation.id));
+      const filtered = getMessagesForConversation(selectedConversation.id);
+      console.log(
+        "ddd - Filtered messages for conversation:",
+        selectedConversation.id,
+        filtered
+      );
+      console.log("eee - All messages in store:", messages);
+      setFilteredMessages(filtered);
     } else {
       setFilteredMessages([]);
     }
@@ -69,11 +76,19 @@ const ConversationView = ({
 
   const handleSendMessage = (messageText: string, file: File | null) => {
     try {
+      console.log(
+        "handleSendMessage - selectedConversation:",
+        selectedConversation
+      );
       const contactId = selectedConversation?.contactId || "";
+      const conversationId = selectedConversation?.id || "";
+      console.log("handleSendMessage - contactId:", contactId);
+      console.log("handleSendMessage - conversationId:", conversationId);
+
       // TODOD: It is the user's responsibility to create an ID for the message and the sender
       const newMessage: NewMessage = {
         contactId: contactId,
-        conversationId: selectedConversation?.id || "",
+        conversationId: conversationId,
         content: messageText,
         senderId: "", // user id
         receiverId: contactId,
@@ -87,9 +102,11 @@ const ConversationView = ({
         updatedAt: new Date(),
       };
 
+      console.log("handleSendMessage - newMessage:", newMessage);
+
       // Notify parent component to refresh conversation list
       if (onMessageSent) {
-        onMessageSent(newMessage, selectedConversation?.id || "");
+        onMessageSent(newMessage, conversationId);
       }
     } catch (error) {
       console.error(error);
@@ -131,9 +148,7 @@ const ConversationView = ({
     return groups;
   };
 
-  const messageGroups = groupMessagesByDate(
-    filteredMessages.filter((msg): msg is Message => "id" in msg) as Message[]
-  );
+  const messageGroups = groupMessagesByDate(filteredMessages as Message[]);
   // Get sorted date keys (oldest first) - date order
   const sortedDateKeys = Object.keys(messageGroups).sort(
     (a, b) => new Date(a).getTime() - new Date(b).getTime()

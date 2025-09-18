@@ -35,21 +35,17 @@ export const deleteConversation = (conversation: Conversation) => {
 };
 
 export const sendMessage = (message: NewMessage, conversationId: string) => {
-  const store = initStore();
-
-  console.log("aaaa", message);
+  const messageId = uuidv4();
+  // Add more info to the message
   const newMessageData: Message = {
     ...message,
-    id: uuidv4(),
+    id: messageId,
     conversationId: conversationId,
     senderId: message.senderId || "",
   };
   // Send the message to the store
-  store.addMessage(newMessageData);
-
-  console.log("bbbb", newMessageData);
+  initStore().addMessage(newMessageData);
   if (newMessageData.direction === MessageDirection.OUTBOUND) {
-    console.log("cccc", initStore().messages);
     setTimeout(() => {
       const updatedMessage = updateMessageStatus(
         newMessageData,
@@ -57,28 +53,22 @@ export const sendMessage = (message: NewMessage, conversationId: string) => {
       );
 
       // Update the message in the store
-      store.setMessages(
-        store.messages
-          // @ts-expect-error - id is not in the type
-          .map((msg) => (msg.id === newMessageData.id ? updatedMessage : msg))
-          .filter((msg): msg is Message => "id" in msg)
+      const updatedMessages = initStore().messages.map((msg) =>
+        (msg as Message).id === messageId ? updatedMessage : msg
       );
+      initStore().setMessages(updatedMessages as Message[]);
     }, 1000);
   } else {
-    console.log("dddd", initStore().messages);
-
     setTimeout(() => {
       const updatedMessage = updateMessageStatus(
         newMessageData,
         MessageStatus.DELIVERED
       );
       // Update the message in the store
-      store.setMessages(
-        store.messages
-          // @ts-expect-error - id is not in the type
-          .map((msg) => (msg.id === newMessageData.id ? updatedMessage : msg))
-          .filter((msg): msg is Message => "id" in msg)
+      const updatedMessages = initStore().messages.map((msg) =>
+        (msg as Message).id === messageId ? updatedMessage : msg
       );
+      initStore().setMessages(updatedMessages as Message[]);
     }, 1000);
   }
 };
