@@ -2,5 +2,8 @@
   "installDependencies": true,
   "startCommand": "npm run dev",
   "openFiles": ["src/App.tsx", "src/pages/DemoPage.tsx"],
-  "showDevtools": true
+  "showDevtools": true,
+  "env": {
+    "NODE_ENV": "development"
+  }
 }
