@@ -88,10 +88,6 @@ const NewConversationDialog = ({
         setErrors({});
         setIsSubmitting(true);
         console.log("formData:", formData);
-        console.log(
-          "test:",
-          `https://ui-avatars.com/api/?name=${formData.firstName.trim()}+${formData.lastName.trim()}`
-        );
 
         // Create conversation data in the new format
         const contactData = {
@@ -100,7 +96,7 @@ const NewConversationDialog = ({
           phoneNumber: formData.phoneNumber.trim(),
           email: formData.email.trim(),
           notes: formData.notes.trim(),
-          avatarUrl: `https://ui-avatars.com/api/?name=${formData.firstName.trim()}+${formData.lastName.trim()}`,
+          avatarUrl: "",
           isActive: true,
           createdAt: new Date(),
           updatedAt: new Date(),

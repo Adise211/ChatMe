@@ -23,6 +23,8 @@ const ConversationItem = ({
   const [currentContact, setCurrentContact] = useState<Contact | null>(null);
   const menuRef = useRef(null);
   const contacts = useStore((state) => state.contacts);
+  const generateAvatarUrl = (firstName: string, lastName: string) =>
+    `https://ui-avatars.com/api/?name=${firstName.trim()}+${lastName.trim()}`;
 
   // Get the contact for the current conversation
   useEffect(() => {
@@ -123,12 +125,17 @@ const ConversationItem = ({
               alt={`${currentContact.firstName} ${currentContact.lastName}`}
               className="w-12 h-12 rounded-full object-cover"
             />
+          ) : currentContact ? (
+            <img
+              src={generateAvatarUrl(
+                currentContact.firstName,
+                currentContact.lastName
+              )}
+              alt={`${currentContact.firstName} ${currentContact.lastName}`}
+              className="w-12 h-12 rounded-full object-cover"
+            />
           ) : (
-            getInitials(
-              currentContact
-                ? `${currentContact.firstName} ${currentContact.lastName}`
-                : ""
-            )
+            getInitials("")
           )}
         </div>
       </div>

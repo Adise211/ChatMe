@@ -20,7 +20,6 @@ const ConversationList = ({
   onDeleteConversation,
 }: ConversationListProps) => {
   const conversations = useStore((state) => state.conversations);
-  const contacts = useStore((state) => state.contacts);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,7 +65,7 @@ const ConversationList = ({
           new Date(b.lastMessageAt || new Date()).getTime() -
           new Date(a.lastMessageAt || new Date()).getTime()
       );
-  }, [searchTerm, conversations, contacts]);
+  }, [searchTerm, conversations]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);

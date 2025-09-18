@@ -19,7 +19,9 @@ export const createNewConversation = (
   contact: Contact,
   conversation: Conversation
 ) => {
-  console.log("createNewConversation", contact, conversation);
+  contact.id = uuidv4();
+  conversation.id = uuidv4();
+  conversation.contactId = contact.id;
   // Create a new conversation in the store
   initStore().addConversation(conversation);
   initStore().addContact(contact);
