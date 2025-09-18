@@ -21,6 +21,7 @@ const ConversationItem = ({
 }: ConversationItemProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [currentContact, setCurrentContact] = useState<Contact | null>(null);
+  const [avatarError, setAvatarError] = useState(false);
   const menuRef = useRef(null);
   const contacts = useStore((state) => state.contacts);
   const generateAvatarUrl = (firstName: string, lastName: string) =>
@@ -30,7 +31,13 @@ const ConversationItem = ({
   useEffect(() => {
     const contact = getContactById(conversationItem.contactId);
     setCurrentContact(contact || null);
+    setAvatarError(false); // Reset avatar error when contact changes
   }, [conversationItem, contacts]);
+
+  // Handle avatar image error
+  const handleAvatarError = () => {
+    setAvatarError(true);
+  };
 
   const formatTime = (timestamp: Date) => {
     if (!timestamp) return "";
@@ -119,11 +126,12 @@ const ConversationItem = ({
       {/* Avatar */}
       <div className="flex-shrink-0 mr-3">
         <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
-          {currentContact?.avatarUrl ? (
+          {currentContact?.avatarUrl && !avatarError ? (
             <img
               src={currentContact.avatarUrl}
               alt={`${currentContact.firstName} ${currentContact.lastName}`}
               className="w-12 h-12 rounded-full object-cover"
+              onError={handleAvatarError}
             />
           ) : currentContact ? (
             <img
@@ -133,6 +141,7 @@ const ConversationItem = ({
               )}
               alt={`${currentContact.firstName} ${currentContact.lastName}`}
               className="w-12 h-12 rounded-full object-cover"
+              onError={handleAvatarError}
             />
           ) : (
             getInitials("")
