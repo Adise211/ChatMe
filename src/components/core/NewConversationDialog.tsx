@@ -41,17 +41,17 @@ const NewConversationDialog = ({
     updatedAt: new Date(),
   };
 
-  const DEFAULT_CONVERSATION_DATA = {
-    contactId: "",
-    lastMessage: "",
-    lastMessageAt: new Date(),
-    lastMessageId: "",
-    unreadCount: 0,
-    lastMessageStatus: MessageStatus.PENDING,
-    isActive: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  // const DEFAULT_CONVERSATION_DATA = {
+  //   contactId: "",
+  //   lastMessage: "",
+  //   lastMessageAt: new Date(),
+  //   lastMessageId: "",
+  //   unreadCount: 0,
+  //   lastMessageStatus: MessageStatus.PENDING,
+  //   isActive: true,
+  //   createdAt: new Date(),
+  //   updatedAt: new Date(),
+  // };
 
   const [formData, setFormData] = useState(DEFAULT_CONTACT_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -87,6 +87,12 @@ const NewConversationDialog = ({
       } else {
         setErrors({});
         setIsSubmitting(true);
+        console.log("formData:", formData);
+        console.log(
+          "test:",
+          `https://ui-avatars.com/api/?name=${formData.firstName.trim()}+${formData.lastName.trim()}`
+        );
+
         // Create conversation data in the new format
         const contactData = {
           firstName: formData.firstName.trim(),
@@ -94,16 +100,27 @@ const NewConversationDialog = ({
           phoneNumber: formData.phoneNumber.trim(),
           email: formData.email.trim(),
           notes: formData.notes.trim(),
-          avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            formData.firstName.trim() + " " + formData.lastName.trim()
-          )}`,
+          avatarUrl: `https://ui-avatars.com/api/?name=${formData.firstName.trim()}+${formData.lastName.trim()}`,
           isActive: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
 
+        const conversationData = {
+          contactId: "",
+          lastMessage: "",
+          lastMessageAt: new Date(),
+          lastMessageId: "",
+          unreadCount: 0,
+          lastMessageStatus: MessageStatus.PENDING,
+          isActive: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+
+        // Pass to the parent component
         if (onCreateNewConversation) {
-          onCreateNewConversation(contactData, DEFAULT_CONVERSATION_DATA);
+          onCreateNewConversation(contactData, conversationData);
         }
 
         handleClose();

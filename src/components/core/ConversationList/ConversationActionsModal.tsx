@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { User } from "lucide-react";
 
 interface ConversationActionsModalProps {
   isOpen: boolean;
@@ -40,6 +41,36 @@ const ConversationActionsModal = ({
 
     return (
       <div className="space-y-4">
+        {/* Avatar Section */}
+        <div className="flex items-center space-x-4">
+          <div className="flex-shrink-0">
+            {currentContact?.avatarUrl ? (
+              <img
+                src={currentContact.avatarUrl}
+                alt={`${currentContact.firstName} ${currentContact.lastName}`}
+                className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                <User className="w-8 h-8 text-gray-400" />
+              </div>
+            )}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">
+              {currentContact
+                ? `${currentContact.firstName} ${currentContact.lastName}`
+                : ""}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {currentContact?.phoneNumber || "N/A"}
+            </p>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-200 my-4"></div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Name
@@ -48,15 +79,6 @@ const ConversationActionsModal = ({
             {currentContact
               ? `${currentContact.firstName} ${currentContact.lastName}`
               : ""}
-          </p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone
-          </label>
-          <p className="text-gray-900">
-            {currentContact?.phoneNumber || "N/A"}
           </p>
         </div>
 
@@ -73,6 +95,23 @@ const ConversationActionsModal = ({
           </label>
           <p className="text-gray-900">
             {formatDate(currentContact?.createdAt || new Date())}
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Status
+          </label>
+          <p className="text-gray-900">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                currentContact?.isActive
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {currentContact?.isActive ? "Active" : "Inactive"}
+            </span>
           </p>
         </div>
 
