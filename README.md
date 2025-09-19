@@ -299,9 +299,7 @@ Try ChatMe in your browser with our interactive sandbox:
 
 **🚀 [HTML Demo](stackblitz-demo.html)** - Interactive chat demo (works immediately!)
 
-**⚡ [Local Development](http://localhost:5177)** - Full demo with all features (run `npm run dev`)
-
-**📦 [StackBlitz Setup](docs/STACKBLITZ_SETUP.md)** - Step-by-step guide to create working StackBlitz demo
+**⚡ [Local Development](http://localhost:5174)** - Full demo with all features (run `npm run dev`)
 
 > **Quick Start**: Visit the [Live Demo](https://chat-me-opal.vercel.app/) for the full experience, or open `stackblitz-demo.html` in your browser for an immediate working demo!
 
