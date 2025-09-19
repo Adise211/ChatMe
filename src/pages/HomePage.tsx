@@ -10,14 +10,19 @@ import {
   sendMessage,
 } from "@/tests/mock-functions";
 
+interface HomePageProps {
+  isMobileView: boolean;
+}
+
 // TESTING ONLY!!!
-const HomePage = () => {
+const HomePage = ({ isMobileView }: HomePageProps) => {
   return (
     <>
       <ChatMe
         contacts={mockContacts}
         conversations={mockConversations}
         messages={mockMessages}
+        isMobileView={isMobileView}
         onInit={() => {
           console.log("onInit");
         }}

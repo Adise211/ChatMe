@@ -8,11 +8,14 @@ import type {
 } from "../config/types";
 import { useEffect, useState } from "react";
 import { useStore } from "@/store";
+import { ArrowLeft } from "lucide-react";
+import { getContactName } from "@/config/helpers";
 
 interface ChatMeProps {
   contacts: Contact[];
   conversations: Conversation[];
   messages: Message[];
+  isMobileView?: boolean;
   onInit(): void;
   onCreateNewConversation: (
     contact: Contact,
@@ -28,6 +31,7 @@ const ChatMe = ({
   contacts,
   conversations,
   messages,
+  isMobileView = false,
   onInit,
   onCreateNewConversation,
   onConversationSelect,
@@ -141,24 +145,63 @@ const ChatMe = ({
   };
 
   return (
-    <div className="h-full">
-      <div className="grid grid-cols-12 h-full">
-        <div className="col-span-4">
-          <ConversationList
-            onConversationSelect={handleConversationSelect}
-            onNewConversation={handleNewConversation}
-            onContactInfo={handleContactInfo}
-            onDeleteConversation={handleDeleteConversation}
-          />
+    <>
+      {/* Desktop View */}
+      {!isMobileView ? (
+        <div className="h-full">
+          <div className="grid grid-cols-12 h-full">
+            <div className="col-span-4">
+              <ConversationList
+                onConversationSelect={handleConversationSelect}
+                onNewConversation={handleNewConversation}
+                onContactInfo={handleContactInfo}
+                onDeleteConversation={handleDeleteConversation}
+              />
+            </div>
+            <div className="col-span-8 h-full">
+              <ConversationView
+                selectedConversation={selectedConversation}
+                onMessageSent={handleMessageSent}
+              />
+            </div>
+          </div>
         </div>
-        <div className="col-span-8 h-full">
-          <ConversationView
-            selectedConversation={selectedConversation}
-            onMessageSent={handleMessageSent}
-          />
+      ) : (
+        <div className="h-full w-full">
+          {!selectedConversation ? (
+            <ConversationList
+              onConversationSelect={handleConversationSelect}
+              onNewConversation={handleNewConversation}
+              onContactInfo={handleContactInfo}
+              onDeleteConversation={handleDeleteConversation}
+            />
+          ) : (
+            <>
+              {/* Mobile View */}
+              <div className="flex items-center p-4 bg-white border-b border-gray-200 gap-2">
+                <button
+                  className="p-1 rounded-full hover:bg-gray-200 transition-colors duration-200 cursor-pointer"
+                  onClick={() => setSelectedConversation(null)}
+                >
+                  <ArrowLeft />
+                </button>
+                <div className="text-lg font-semibold text-gray-900 truncate">
+                  {getContactName(
+                    selectedConversation?.contactId || "Unknown Contact"
+                  )}
+                </div>
+              </div>
+              <div className="h-[calc(100vh-120px)]">
+                <ConversationView
+                  selectedConversation={selectedConversation}
+                  onMessageSent={handleMessageSent}
+                />
+              </div>
+            </>
+          )}
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

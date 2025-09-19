@@ -98,3 +98,8 @@ export const getMessagesForConversation = (conversationId: string) => {
     (message) => message.conversationId === conversationId
   );
 };
+
+export const getContactName = (contactId: string) => {
+  const contact = getContactById(contactId);
+  return contact?.firstName + " " + contact?.lastName;
+};
