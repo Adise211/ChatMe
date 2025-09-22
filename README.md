@@ -27,7 +27,7 @@ Before installing ChatMe, make sure your project has the following:
 
 ## 🚀 Installation
 
-You can install ChatMe directly from GitHub:
+### Option 1: Install from GitHub (Recommended)
 
 ```bash
 npm install github:Adise211/chatme
@@ -39,10 +39,50 @@ or with Yarn:
 yarn add github:Adise211/chatme
 ```
 
-Make sure you also install the required dependencies if they're not already in your project
+### Option 2: Install from Local Path
 
-💡 If you don't already have shadcn/ui installed, follow the official setup guide:
-👉 [shadcn/ui Installation](https://ui.shadcn.com/docs/installation)
+If you want to use this as a local package without publishing:
+
+```bash
+npm install /path/to/chatme
+```
+
+### Required Dependencies
+
+Make sure you have these dependencies in your project:
+
+```bash
+npm install react react-dom
+```
+
+### Optional Dependencies (for full functionality)
+
+```bash
+npm install @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-slot @radix-ui/react-switch class-variance-authority clsx lucide-react tailwind-merge uuid zod
+```
+
+> **Note**: Zustand is used internally by ChatMe for state management and is included as a dependency, so you don't need to install it separately.
+
+### Tailwind CSS Setup
+
+Since ChatMe uses Tailwind CSS, make sure you have it configured in your project:
+
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+Add the ChatMe styles to your main CSS file:
+
+```css
+@import "chatme/styles";
+```
+
+Or import the styles in your main component:
+
+```tsx
+import "chatme/styles";
+```
 
 ## 🎯 Quick Start
 
@@ -474,14 +514,44 @@ cd chatme
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server (demo)
 npm run dev
 
-# Build for production
-npm run build
+# Build library for distribution
+npm run build:lib
+
+# Build demo for production
+npm run build:demo
 
 # Run tests
 npm test
+```
+
+### Building the Library
+
+To build the library for distribution:
+
+```bash
+# Build the library (creates dist/ folder)
+npm run build:lib
+
+# This will create:
+# - dist/index.mjs (ES modules)
+# - dist/index.cjs (CommonJS)
+# - dist/index.d.ts (TypeScript declarations)
+# - dist/styles.css (CSS styles)
+```
+
+### Using as a Local Package
+
+If you want to test the library locally in another project:
+
+```bash
+# In the chatme directory
+npm run build:lib
+
+# In your test project
+npm install /path/to/chatme
 ```
 
 ## 🤝 Contributing

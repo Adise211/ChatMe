@@ -1,0 +1,96 @@
+/* ChatMe Library Styles */
+/* This file contains the base styles for the ChatMe library */
+
+/* Import Tailwind base styles */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* ChatMe specific component styles */
+.chatme-container {
+  @apply h-full w-full;
+}
+
+.chatme-conversation-list {
+  @apply bg-white border-r border-gray-200;
+}
+
+.chatme-conversation-item {
+  @apply p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors duration-200;
+}
+
+.chatme-conversation-item.active {
+  @apply bg-blue-50 border-blue-200;
+}
+
+.chatme-message-bubble {
+  @apply rounded-lg px-4 py-2 max-w-xs break-words;
+}
+
+.chatme-message-bubble.inbound {
+  @apply bg-blue-500 text-white;
+}
+
+.chatme-message-bubble.outbound {
+  @apply bg-gray-200 text-gray-800;
+}
+
+.chatme-message-input {
+  @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.chatme-avatar {
+  @apply w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-medium;
+}
+
+.chatme-contact-name {
+  @apply font-semibold text-gray-900 truncate;
+}
+
+.chatme-last-message {
+  @apply text-sm text-gray-600 truncate;
+}
+
+.chatme-timestamp {
+  @apply text-xs text-gray-500;
+}
+
+.chatme-unread-badge {
+  @apply bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .chatme-message-bubble {
+    @apply max-w-[85%];
+  }
+}
+
+/* Animation classes */
+.chatme-fade-in {
+  animation: chatme-fade-in 0.2s ease-in-out;
+}
+
+@keyframes chatme-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chatme-slide-in {
+  animation: chatme-slide-in 0.3s ease-out;
+}
+
+@keyframes chatme-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
