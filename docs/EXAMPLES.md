@@ -1,58 +1,21 @@
 # ChatMe Examples
 
-This document provides various examples and usage patterns for the ChatMe UI library.
+This document provides various examples and usage patterns for the ChatMe chat application.
 
 ## Basic Usage
 
 ### Simple Chat Implementation
 
+The ChatMe app comes with a complete chat interface out of the box. Here's how the main components work together:
+
 ```tsx
-import React, { useState } from "react";
-import ChatMe from "chatme";
-import type { Contact, Conversation, Message } from "chatme";
+// src/App.tsx
+import React from "react";
+import ChatMe from "./components/ChatMe";
+import { useChatStore } from "./store";
 
-const SimpleChat = () => {
-  const [contacts] = useState<Contact[]>([
-    {
-      id: "contact-1",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john@example.com",
-      phoneNumber: "+1234567890",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [conversations] = useState<Conversation[]>([
-    {
-      id: "conv-1",
-      contactId: "contact-1",
-      lastMessage: "Hello!",
-      lastMessageAt: new Date(),
-      lastMessageId: "msg-1",
-      unreadCount: 0,
-      lastMessageStatus: "READ",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [messages] = useState<Message[]>([
-    {
-      id: "msg-1",
-      contactId: "contact-1",
-      conversationId: "conv-1",
-      content: "Hello!",
-      senderId: "contact-1",
-      receiverId: "user-1",
-      direction: "INBOUND",
-      currentStatus: "READ",
-      statusHistory: [],
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
+const App = () => {
+  const { contacts, conversations, messages } = useChatStore();
 
   return (
     <div className="h-screen">
@@ -80,22 +43,30 @@ const SimpleChat = () => {
     </div>
   );
 };
+
+export default App;
 ```
 
 ## Advanced Usage
 
 ### Real-time Chat with WebSocket
 
+Here's how you can integrate real-time messaging with WebSocket:
+
 ```tsx
 import React, { useState, useEffect, useCallback } from "react";
-import ChatMe from "chatme";
-import type { Contact, Conversation, Message, NewMessage } from "chatme";
-import { MessageDirection, MessageStatus } from "chatme";
+import { useChatStore } from "./store";
+import type {
+  Contact,
+  Conversation,
+  Message,
+  NewMessage,
+} from "./config/types";
+import { MessageDirection, MessageStatus } from "./config/enums";
 
 const RealTimeChat = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { contacts, conversations, messages, setMessages, setConversations } =
+    useChatStore();
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
@@ -236,70 +207,22 @@ const RealTimeChat = () => {
 
 ### Chat with Media Support
 
+Here's how to handle media messages:
+
 ```tsx
 import React, { useState } from "react";
-import ChatMe from "chatme";
-import type { Contact, Conversation, Message, NewMessage } from "chatme";
-import { MessageDirection, MessageStatus } from "chatme";
+import { useChatStore } from "./store";
+import type {
+  Contact,
+  Conversation,
+  Message,
+  NewMessage,
+} from "./config/types";
+import { MessageDirection, MessageStatus } from "./config/enums";
 
 const MediaChat = () => {
-  const [contacts, setContacts] = useState<Contact[]>([
-    {
-      id: "contact-1",
-      firstName: "Alice",
-      lastName: "Johnson",
-      email: "alice@example.com",
-      phoneNumber: "+1234567890",
-      avatarUrl: "https://example.com/avatar.jpg",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [conversations, setConversations] = useState<Conversation[]>([
-    {
-      id: "conv-1",
-      contactId: "contact-1",
-      lastMessage: "Check out this image!",
-      lastMessageAt: new Date(),
-      lastMessageId: "msg-2",
-      unreadCount: 0,
-      lastMessageStatus: MessageStatus.READ,
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "msg-1",
-      contactId: "contact-1",
-      conversationId: "conv-1",
-      content: "Hey! How are you?",
-      senderId: "contact-1",
-      receiverId: "user-1",
-      direction: MessageDirection.INBOUND,
-      currentStatus: MessageStatus.READ,
-      statusHistory: [],
-      isActive: true,
-      createdAt: new Date(Date.now() - 60000),
-    },
-    {
-      id: "msg-2",
-      contactId: "contact-1",
-      conversationId: "conv-1",
-      content: "Check out this image!",
-      senderId: "contact-1",
-      receiverId: "user-1",
-      mediaType: "image/jpeg",
-      mediaUrl: "https://example.com/image.jpg",
-      direction: MessageDirection.INBOUND,
-      currentStatus: MessageStatus.READ,
-      statusHistory: [],
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
+  const { contacts, conversations, messages, setMessages, setConversations } =
+    useChatStore();
 
   const handleMessageSent = (
     newMessage: NewMessage,
@@ -386,32 +309,10 @@ const MediaChat = () => {
 
 ### Custom Styling
 
-```tsx
-import React from "react";
-import ChatMe from "chatme";
-import "./custom-chat.css";
-
-const CustomStyledChat = () => {
-  return (
-    <div className="custom-chat-container">
-      <ChatMe
-        contacts={contacts}
-        conversations={conversations}
-        messages={messages}
-        onInit={() => {}}
-        onCreateNewConversation={() => {}}
-        onConversationSelect={() => {}}
-        onContactInfo={() => {}}
-        onDeleteConversation={() => {}}
-        onMessageSent={() => {}}
-      />
-    </div>
-  );
-};
-```
+You can customize the chat appearance by overriding CSS classes:
 
 ```css
-/* custom-chat.css */
+/* src/styles/custom-chat.css */
 .custom-chat-container {
   @apply bg-gradient-to-br from-blue-50 to-indigo-100;
   border-radius: 12px;
@@ -441,7 +342,8 @@ const CustomStyledChat = () => {
 
 ```tsx
 import React, { createContext, useContext } from "react";
-import ChatMe from "chatme";
+import ChatMe from "./components/ChatMe";
+import { useChatStore } from "./store";
 
 interface ThemeContextType {
   primaryColor: string;
@@ -457,6 +359,7 @@ const ThemeContext = createContext<ThemeContextType>({
 
 const ThemedChat = () => {
   const theme = useContext(ThemeContext);
+  const { contacts, conversations, messages } = useChatStore();
 
   const customStyles = {
     "--chat-primary": theme.primaryColor,
@@ -494,10 +397,12 @@ import {
   Route,
   useParams,
 } from "react-router-dom";
-import ChatMe from "chatme";
+import ChatMe from "./components/ChatMe";
+import { useChatStore } from "./store";
 
 const ChatPage = () => {
   const { conversationId } = useParams();
+  const { contacts, conversations, messages } = useChatStore();
 
   return (
     <div className="h-screen">
@@ -536,57 +441,6 @@ const App = () => {
 };
 ```
 
-### Redux Integration
-
-```tsx
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import ChatMe from "chatme";
-import {
-  selectContacts,
-  selectConversations,
-  selectMessages,
-  sendMessage,
-  selectConversation,
-  deleteConversation,
-} from "./chatSlice";
-
-const ReduxChat = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const conversations = useSelector(selectConversations);
-  const messages = useSelector(selectMessages);
-
-  return (
-    <div className="h-screen">
-      <ChatMe
-        contacts={contacts}
-        conversations={conversations}
-        messages={messages}
-        onInit={() => {
-          dispatch(loadInitialData());
-        }}
-        onCreateNewConversation={(contact, conversation) => {
-          dispatch(createConversation({ contact, conversation }));
-        }}
-        onConversationSelect={(conversation) => {
-          dispatch(selectConversation(conversation.id));
-        }}
-        onContactInfo={(contact) => {
-          dispatch(showContactInfo(contact.id));
-        }}
-        onDeleteConversation={(conversation) => {
-          dispatch(deleteConversation(conversation.id));
-        }}
-        onMessageSent={(message, conversationId) => {
-          dispatch(sendMessage({ message, conversationId }));
-        }}
-      />
-    </div>
-  );
-};
-```
-
 ## Testing Examples
 
 ### Unit Test Example
@@ -594,8 +448,12 @@ const ReduxChat = () => {
 ```tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import ChatMe from "chatme";
-import { mockContacts, mockConversations, mockMessages } from "./test-data";
+import ChatMe from "../components/ChatMe";
+import {
+  mockContacts,
+  mockConversations,
+  mockMessages,
+} from "../tests/mock-data";
 
 describe("ChatMe Component", () => {
   it("should render chat interface", () => {
@@ -654,9 +512,12 @@ describe("ChatMe Component", () => {
 
 ```tsx
 import React, { memo, useMemo, useCallback } from "react";
-import ChatMe from "chatme";
+import ChatMe from "./components/ChatMe";
+import { useChatStore } from "./store";
 
-const OptimizedChat = memo(({ contacts, conversations, messages }) => {
+const OptimizedChat = memo(() => {
+  const { contacts, conversations, messages } = useChatStore();
+
   const memoizedContacts = useMemo(() => contacts, [contacts]);
   const memoizedConversations = useMemo(() => conversations, [conversations]);
   const memoizedMessages = useMemo(() => messages, [messages]);
@@ -689,4 +550,4 @@ const OptimizedChat = memo(({ contacts, conversations, messages }) => {
 OptimizedChat.displayName = "OptimizedChat";
 ```
 
-These examples demonstrate various ways to integrate and customize the ChatMe UI library for different use cases and requirements.
+These examples demonstrate various ways to use and customize the ChatMe chat application for different use cases and requirements.

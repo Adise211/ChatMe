@@ -1,6 +1,6 @@
-# ChatMe UI Library
+# ChatMe
 
-A modern, responsive React chat interface library built with TypeScript, Tailwind CSS, and Radix UI components. ChatMe provides a complete chat experience with conversation management, message handling, and contact integration.
+A modern, responsive React chat application built with TypeScript, Tailwind CSS, and Radix UI components. ChatMe provides a complete chat experience with conversation management, message handling, and contact integration.
 
 ## 🚀 Features
 
@@ -14,170 +14,76 @@ A modern, responsive React chat interface library built with TypeScript, Tailwin
 - **Error Handling**: Graceful error handling for all callbacks
 - **Testing**: Comprehensive test suite with Vitest
 
-## 📦 Requirements
+## 🛠️ Tech Stack
 
-Before installing ChatMe, make sure your project has the following:
+- **React 19** - Modern React with latest features
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Zustand** - Lightweight state management
+- **Zod** - Schema validation
+- **Vite** - Fast build tool and dev server
+- **Vitest** - Testing framework
 
-- React ^18 or ^19
-- React DOM ^18 or ^19
-- Tailwind CSS ^4.x (for styling)
-- shadcn/ui (for prebuilt accessible UI components)
-- Zustand (for state management)
-- Zod (for schema validation)
+## 🚀 Getting Started
 
-## 🚀 Installation
+### Prerequisites
 
-### Option 1: Install from GitHub (Recommended)
+- Node.js 18+
+- npm/yarn/pnpm
 
-```bash
-npm install github:Adise211/chatme
-```
+### Installation
 
-or with Yarn:
-
-```bash
-yarn add github:Adise211/chatme
-```
-
-### Option 2: Install from Local Path
-
-If you want to use this as a local package without publishing:
+1. Clone the repository:
 
 ```bash
-npm install /path/to/chatme
+git clone https://github.com/Adise211/chatme.git
+cd chatme
 ```
 
-### Required Dependencies
-
-Make sure you have these dependencies in your project:
+2. Install dependencies:
 
 ```bash
-npm install react react-dom
+npm install
 ```
 
-### Optional Dependencies (for full functionality)
+3. Start the development server:
 
 ```bash
-npm install @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-slot @radix-ui/react-switch class-variance-authority clsx lucide-react tailwind-merge uuid zod
+npm run dev
 ```
 
-> **Note**: Zustand is used internally by ChatMe for state management and is included as a dependency, so you don't need to install it separately.
+4. Open your browser and navigate to `http://localhost:5174`
 
-### Tailwind CSS Setup
-
-Since ChatMe uses Tailwind CSS, make sure you have it configured in your project:
+### Building for Production
 
 ```bash
-npm install -D tailwindcss
-npx tailwindcss init
+npm run build
 ```
 
-Add the ChatMe styles to your main CSS file:
+The built files will be in the `dist/` directory.
 
-```css
-@import "chatme/styles";
-```
+## 🎯 Usage
 
-Or import the styles in your main component:
+### Basic Chat Interface
 
-```tsx
-import "chatme/styles";
-```
+The app provides a complete chat interface with:
 
-## 🎯 Quick Start
+- **Conversation List**: Left sidebar showing all conversations
+- **Message View**: Main area displaying messages and input
+- **Contact Management**: Add and manage contacts
+- **Media Messages**: Send and receive images/videos
+- **Message Status**: Track message delivery and read status
 
-1. Configure Tailwind CSS in your project.
-
-2. Set up shadcn/ui following its installation guide.
-
-3. Import and use ChatMe:
-
-```tsx
-import React from "react";
-import ChatMe from "chatme";
-import type { Contact, Conversation, Message } from "chatme";
-
-const App = () => {
-  const contacts: Contact[] = [
-    {
-      id: "contact-1",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john@example.com",
-      phoneNumber: "+1234567890",
-      avatarUrl: "https://example.com/avatar.jpg",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ];
-
-  const conversations: Conversation[] = [
-    {
-      id: "conv-1",
-      contactId: "contact-1",
-      lastMessage: "Hello there!",
-      lastMessageAt: new Date(),
-      lastMessageId: "msg-1",
-      unreadCount: 0,
-      lastMessageStatus: "READ",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ];
-
-  const messages: Message[] = [
-    {
-      id: "msg-1",
-      contactId: "contact-1",
-      conversationId: "conv-1",
-      content: "Hello there!",
-      senderId: "contact-1",
-      receiverId: "user-1",
-      direction: "INBOUND",
-      currentStatus: "READ",
-      statusHistory: [],
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ];
-
-  return (
-    <ChatMe
-      contacts={contacts}
-      conversations={conversations}
-      messages={messages}
-      onInit={() => console.log("ChatMe initialized")}
-      onCreateNewConversation={(contact, conversation) => {
-        console.log("New conversation created", { contact, conversation });
-      }}
-      onConversationSelect={(conversation) => {
-        console.log("Conversation selected", conversation);
-      }}
-      onContactInfo={(contact) => {
-        console.log("Contact info requested", contact);
-      }}
-      onDeleteConversation={(conversation) => {
-        console.log("Conversation deleted", conversation);
-      }}
-      onMessageSent={(message, conversationId) => {
-        console.log("Message sent", { message, conversationId });
-      }}
-    />
-  );
-};
-
-export default App;
-```
-
-## 🏗️ Architecture
-
-### Core Components
+### Key Components
 
 - **ChatMe**: Main container component
 - **ConversationList**: Left sidebar with conversation list
 - **ConversationView**: Right panel with message display and input
 - **MessageBubble**: Individual message component
 - **MessageInput**: Message composition area
+
+## 🏗️ Architecture
 
 ### State Management
 
@@ -195,22 +101,6 @@ interface StoreState {
   // ... other methods
 }
 ```
-
-## 📚 API Reference
-
-### ChatMe Props
-
-| Prop                      | Type                                                     | Required | Description                           |
-| ------------------------- | -------------------------------------------------------- | -------- | ------------------------------------- |
-| `contacts`                | `Contact[]`                                              | ✅       | Array of contact objects              |
-| `conversations`           | `Conversation[]`                                         | ✅       | Array of conversation objects         |
-| `messages`                | `Message[]`                                              | ✅       | Array of message objects              |
-| `onInit`                  | `() => void`                                             | ✅       | Called when component initializes     |
-| `onCreateNewConversation` | `(contact: Contact, conversation: Conversation) => void` | ✅       | Called when creating new conversation |
-| `onConversationSelect`    | `(conversation: Conversation) => void`                   | ✅       | Called when conversation is selected  |
-| `onContactInfo`           | `(contact: Contact) => void`                             | ✅       | Called when contact info is requested |
-| `onDeleteConversation`    | `(conversation: Conversation) => void`                   | ✅       | Called when conversation is deleted   |
-| `onMessageSent`           | `(message: NewMessage, conversationId: string) => void`  | ✅       | Called when message is sent           |
 
 ### Data Types
 
@@ -270,22 +160,27 @@ interface Message {
 }
 ```
 
-#### Enums
+## 🧪 Testing
 
-```typescript
-enum MessageDirection {
-  INBOUND = "INBOUND",
-  OUTBOUND = "OUTBOUND",
-}
+Run the test suite:
 
-enum MessageStatus {
-  PENDING = "PENDING",
-  SENT = "SENT",
-  DELIVERED = "DELIVERED",
-  READ = "READ",
-  FAILED = "FAILED",
-}
+```bash
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test
+
+# Run tests with coverage
+npm run test:coverage
 ```
+
+### Test Structure
+
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: Component interaction testing
+- **Error Handling Tests**: Graceful error handling verification
+- **Mock Data**: Comprehensive test data for development
 
 ## 🎨 Customization
 
@@ -322,236 +217,37 @@ ChatMe uses Tailwind CSS for styling. You can customize the appearance by:
 }
 ```
 
-## 🧪 Testing
-
-ChatMe includes comprehensive tests using Vitest and React Testing Library:
-
-```bash
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test
-
-# Run tests with coverage
-npm run test:coverage
-```
-
-### Test Structure
-
-- **Unit Tests**: Individual component testing
-- **Integration Tests**: Component interaction testing
-- **Error Handling Tests**: Graceful error handling verification
-- **Mock Data**: Comprehensive test data for development
-
-## 🚀 Live Demo
-
-### Sandbox Preview
-
-Try ChatMe in your browser with our interactive sandbox:
-
-**🌐 [Live Demo](https://chat-me-opal.vercel.app/)** - Full-featured demo deployed on Vercel
-
-**🚀 [HTML Demo](stackblitz-demo.html)** - Interactive chat demo (works immediately!)
-
-**⚡ [Local Development](http://localhost:5174)** - Full demo with all features (run `npm run dev`)
-
-> **Quick Start**: Visit the [Live Demo](https://chat-me-opal.vercel.app/) for the full experience, or open `stackblitz-demo.html` in your browser for an immediate working demo!
-
-### Demo Features
-
-- **Interactive Chat**: Send and receive messages
-- **Contact Management**: Add and manage contacts
-- **Conversation Flow**: Create and switch between conversations
-- **Media Messages**: Send images and videos
-- **Real-time Updates**: See live message status changes
-
-### Demo Code
-
-```tsx
-// Live demo example
-import { useState } from "react";
-import ChatMe from "chatme";
-
-const DemoApp = () => {
-  const [contacts, setContacts] = useState([
-    {
-      id: "demo-contact-1",
-      firstName: "Alice",
-      lastName: "Johnson",
-      email: "alice@example.com",
-      phoneNumber: "+1234567890",
-      avatarUrl:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [conversations, setConversations] = useState([
-    {
-      id: "demo-conv-1",
-      contactId: "demo-contact-1",
-      lastMessage: "Hey! How are you doing?",
-      lastMessageAt: new Date(),
-      lastMessageId: "demo-msg-1",
-      unreadCount: 2,
-      lastMessageStatus: "DELIVERED",
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ]);
-
-  const [messages, setMessages] = useState([
-    {
-      id: "demo-msg-1",
-      contactId: "demo-contact-1",
-      conversationId: "demo-conv-1",
-      content: "Hey! How are you doing?",
-      senderId: "demo-contact-1",
-      receiverId: "demo-user-1",
-      direction: "INBOUND",
-      currentStatus: "DELIVERED",
-      statusHistory: [
-        { status: "PENDING", at: new Date(Date.now() - 10000) },
-        { status: "SENT", at: new Date(Date.now() - 8000) },
-        { status: "DELIVERED", at: new Date(Date.now() - 5000) },
-      ],
-      isActive: true,
-      createdAt: new Date(Date.now() - 10000),
-    },
-  ]);
-
-  const handleMessageSent = (newMessage, conversationId) => {
-    // Add the new message to the messages array
-    setMessages((prev) => [
-      ...prev,
-      {
-        ...newMessage,
-        id: `msg-${Date.now()}`,
-        createdAt: new Date(),
-      },
-    ]);
-
-    // Update the conversation's last message
-    setConversations((prev) =>
-      prev.map((conv) =>
-        conv.id === conversationId
-          ? {
-              ...conv,
-              lastMessage: newMessage.content,
-              lastMessageAt: new Date(),
-              lastMessageId: `msg-${Date.now()}`,
-              unreadCount: 0,
-            }
-          : conv
-      )
-    );
-  };
-
-  return (
-    <div className="h-screen">
-      <ChatMe
-        contacts={contacts}
-        conversations={conversations}
-        messages={messages}
-        onInit={() => console.log("Demo initialized")}
-        onCreateNewConversation={(contact, conversation) => {
-          console.log("Creating new conversation", { contact, conversation });
-        }}
-        onConversationSelect={(conversation) => {
-          console.log("Selected conversation", conversation);
-        }}
-        onContactInfo={(contact) => {
-          console.log("Contact info", contact);
-        }}
-        onDeleteConversation={(conversation) => {
-          setConversations((prev) =>
-            prev.filter((conv) => conv.id !== conversation.id)
-          );
-        }}
-        onMessageSent={handleMessageSent}
-      />
-    </div>
-  );
-};
-
-export default DemoApp;
-```
-
-## 📚 Examples & Documentation
-
-### Code Examples
-
-For comprehensive code examples and integration patterns, see:
-
-**📖 [EXAMPLES.md](docs/EXAMPLES.md)** - Complete code examples including:
-
-- Basic usage patterns
-- Real-time chat implementation
-- Media message handling
-- Custom styling and theming
-- Router integration
-- State management integration
-- Testing examples
-- Performance optimization
-
 ## 🔧 Development
 
-### Prerequisites
+### Project Structure
 
-- Node.js 18+
-- npm/yarn/pnpm
-- TypeScript knowledge
-
-### Setup
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd chatme
-
-# Install dependencies
-npm install
-
-# Start development server (demo)
-npm run dev
-
-# Build library for distribution
-npm run build:lib
-
-# Build demo for production
-npm run build:demo
-
-# Run tests
-npm test
+```
+src/
+├── components/           # React components
+│   ├── ChatMe.tsx       # Main chat component
+│   ├── core/            # Core chat components
+│   └── ui/              # Reusable UI components
+├── config/              # Configuration files
+│   ├── types.ts         # TypeScript types
+│   ├── schema.ts        # Zod schemas
+│   ├── enums.ts         # Enums
+│   └── helpers.ts       # Utility functions
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility libraries
+├── pages/               # Page components
+├── services/            # API services
+├── store/               # State management
+└── tests/               # Test files
 ```
 
-### Building the Library
-
-To build the library for distribution:
+### Development Commands
 
 ```bash
-# Build the library (creates dist/ folder)
-npm run build:lib
-
-# This will create:
-# - dist/index.mjs (ES modules)
-# - dist/index.cjs (CommonJS)
-# - dist/index.d.ts (TypeScript declarations)
-# - dist/styles.css (CSS styles)
-```
-
-### Using as a Local Package
-
-If you want to test the library locally in another project:
-
-```bash
-# In the chatme directory
-npm run build:lib
-
-# In your test project
-npm install /path/to/chatme
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run test             # Run tests
+npm run lint             # Lint code
 ```
 
 ## 🤝 Contributing
@@ -564,6 +260,10 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 2. **Testing**: Add tests for new features
 3. **Documentation**: Update documentation for API changes
 4. **Type Safety**: Maintain TypeScript strict mode compliance
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🔄 Changelog
 
