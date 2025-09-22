@@ -14,28 +14,43 @@ A modern, responsive React chat interface library built with TypeScript, Tailwin
 - **Error Handling**: Graceful error handling for all callbacks
 - **Testing**: Comprehensive test suite with Vitest
 
-## 📦 Installation
+## 📦 Requirements
+
+Before installing ChatMe, make sure your project has the following:
+
+- React ^18 or ^19
+- React DOM ^18 or ^19
+- Tailwind CSS ^4.x (for styling)
+- shadcn/ui (for prebuilt accessible UI components)
+- Zustand (for state management)
+- Zod (for schema validation)
+
+## 🚀 Installation
+
+You can install ChatMe directly from GitHub:
 
 ```bash
-npm install chatme
-# or
-yarn add chatme
-# or
-pnpm add chatme
+npm install github:Adise211/chatme
 ```
 
-### Peer Dependencies
-
-ChatMe requires the following peer dependencies:
+or with Yarn:
 
 ```bash
-npm install react react-dom
-npm install @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-slot
-npm install tailwindcss class-variance-authority clsx tailwind-merge
-npm install lucide-react zustand zod uuid
+yarn add github:Adise211/chatme
 ```
+
+Make sure you also install the required dependencies if they're not already in your project
+
+💡 If you don't already have shadcn/ui installed, follow the official setup guide:
+👉 [shadcn/ui Installation](https://ui.shadcn.com/docs/installation)
 
 ## 🎯 Quick Start
+
+1. Configure Tailwind CSS in your project.
+
+2. Set up shadcn/ui following its installation guide.
+
+3. Import and use ChatMe:
 
 ```tsx
 import React from "react";
