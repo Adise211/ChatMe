@@ -1,5 +1,0 @@
-{
-  "installDependencies": true,
-  "startCommand": "npm run dev",
-  "openFiles": ["src/App.tsx", "src/pages/DemoPage.tsx"]
-}
